@@ -4,7 +4,8 @@ from datetime import datetime
 
 #create a mock database
 MOCK_DATABASE = {
-    "questions": [ ]
+    "questions": [ ],
+     "answers": [ ]
 
 }
 

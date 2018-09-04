@@ -48,3 +48,16 @@ class TestQuestion(unittest.TestCase):
         response = self.client.post('api/v1/questions', data=json.dumps(new_question),
                                     headers={'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 400)
+
+    def test_get_a_single_question(self):
+        #method to get a single question
+        question = MOCK_DATABASE['questions'][0]
+        response = self.client.get(f'api/v1/questions/{question.id}',content_type='application/json')
+        result = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_non_existing_question(self):
+        question = MOCK_DATABASE[ 'questions' ][ 0 ]
+        response = self.client.get(f'api/v1/questions/gggggg-ggggggggg-gggggggg', content_type='application/json')
+        result = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 404)
