@@ -18,7 +18,7 @@ api.add_resource(AnswerResource, '/api/v1/questions/<string:id>/anwsers')
 @app.errorhandler(404)
 #This method handles error 404
 def error_404(e):
-    return jsonify({"message": "The page you are looking its found.Kindly countercheck the url"}), 404
+    return jsonify({"message": "Sorry!!!The page you were looking for was not found.Kindly countercheck the url"}), 404
 
 
 def seeding():
