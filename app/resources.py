@@ -21,6 +21,11 @@ class QuestionsResource(Resource):
         saved_question = question.save()
         return {"status": "The question posted successfully", "data": saved_question}, 201
 
+    def get(self):
+        # method that gets all questions resource
+        questions = Question.get_all()
+        return {"status": "Success", "data": questions}, 200
+
 class AnswerResource(Resource):
     
     def post(self,id):
@@ -38,6 +43,8 @@ class AnswerResource(Resource):
         answer = Answer(body=request.json[ 'body' ],question_id=id)
         saved_answer = answer.save()
         return {"status": "The answer was posted successfully", "data": saved_answer}, 201
+
+
 
 class QuestionResource(Resource):
     def get(self,id):

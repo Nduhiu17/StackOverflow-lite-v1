@@ -61,3 +61,8 @@ class TestQuestion(unittest.TestCase):
         response = self.client.get(f'api/v1/questions/gggggg-ggggggggg-gggggggg', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 404)
+
+    def test_get_all_questions(self):
+            # test can get all questions
+        response = self.client.get('/api/v1/questions', content_type='application/json')
+        self.assertEqual(response.status_code, 200)

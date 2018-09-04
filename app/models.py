@@ -47,6 +47,15 @@ class Question:
                 retrieved_question[ 'answers' ] = answers
                 return retrieved_question
 
+    @classmethod
+    def get_all(cls):
+        #method to get all questions
+        all_questions = MOCK_DATABASE[ 'questions' ]
+        get_all_json = [ ]
+        for item in all_questions:
+            get_all_json.append(item.json_dumps())
+        return get_all_json
+
 class Answer:
     '''Class to model an answer'''
 
