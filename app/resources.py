@@ -1,7 +1,7 @@
 from flask_restplus import Resource, reqparse
 from flask import request
 
-from app.models import Question, Answer
+from app.models import Question, Answer, User
 
 
 class QuestionsResource(Resource):
@@ -57,3 +57,21 @@ class QuestionResource(Resource):
             return {"status": "No question with that id"}, 404
 
         return {"status": "Success", "data": question}, 200
+
+
+class UsersResource(Resource):
+    '''Users registration resource'''
+    def post(self):
+        # method that saves a user resource
+        parser = reqparse.RequestParser()
+        parser.add_argument('username', help='The username field cannot be blank', required=True, type=str)
+        parser.add_argument('email', help='The email field cannot be blank', required=True, type=str)
+        parser.add_argument('password', help='The password field cannot be blank', required=True, type=str)
+        data = parser.parse_args()
+        json_data = request.get_json(force=True)
+        if len(data[ 'username' ]) < 8:
+            return {'message': 'The length of username should be atleast 8 characters'}, 400
+        user = User(username=request.json[ 'username' ], email=request.json[ 'email' ],
+                    password=request.json[ 'password' ])
+        saved_user = user.save_user()
+        return {"status": "The user saved successfully", "data": saved_user}, 201

@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
 from flask_restplus import Api
 
-from app.models import Question
-from app.resources import QuestionsResource, QuestionResource, AnswersResource
+from app.models import Question, User
+from app.resources import QuestionsResource, QuestionResource, AnswersResource, UsersResource
 from config import DevelopmentConfig
 
 app = Flask(__name__)
@@ -12,6 +12,7 @@ api = Api(app)
 api.add_resource(QuestionsResource, '/api/v1/questions', '/api/v1/questions')
 api.add_resource(QuestionResource, '/api/v1/questions/<string:id>')
 api.add_resource(AnswersResource, '/api/v1/questions/<string:id>/anwsers')
+api.add_resource(UsersResource, '/api/v1/users')
 
 
 
@@ -26,6 +27,9 @@ def seeding():
     new_question = Question(title="error sit voluptatem accusantium doloremque laudantium?",
                             body="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium")
     new_question.save()
+
+    new_user = User(username = "Nduhiumundia", email="antony@gmail.com",password="njksandknpoi20909HHKJ5522765@@")
+    new_user.save_user()
 
 
 seeding()

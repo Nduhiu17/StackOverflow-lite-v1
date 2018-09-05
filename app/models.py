@@ -5,7 +5,8 @@ from datetime import datetime
 # create a mock database
 MOCK_DATABASE = {
     "questions": [ ],
-    "answers": [ ]
+    "answers": [ ],
+    "users": [ ]
 
 }
 
@@ -96,5 +97,19 @@ class Answer:
             "date_modified": str(self.date_modified)
         }
         return ans
+
+class User:
+    '''Class to model a user'''
+    def __init__(self, username, email,password):
+        #method to initialize User class
+        self.id = uuid.uuid4()
+        self.username = username
+        self.email = email
+        self.password = password
+        self.date_created = datetime.now()
+        self.date_modified = datetime.now()
+
+    def save_user(self):
+        MOCK_DATABASE["users"].append(self)
 
 
