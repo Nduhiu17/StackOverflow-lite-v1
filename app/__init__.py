@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
-from flask_restplus import Api, Resource
+from flask_restplus import Api
 
 from app.models import Question
-from app.resources import QuestionsResource,AnswerResource,QuestionResource
+from app.resources import QuestionsResource, QuestionResource, AnswersResource
 from config import DevelopmentConfig
 
 app = Flask(__name__)
@@ -11,7 +11,7 @@ api = Api(app)
 
 api.add_resource(QuestionsResource, '/api/v1/questions', '/api/v1/questions')
 api.add_resource(QuestionResource, '/api/v1/questions/<string:id>')
-api.add_resource(AnswerResource, '/api/v1/questions/<string:id>/anwsers')
+api.add_resource(AnswersResource, '/api/v1/questions/<string:id>/anwsers')
 
 
 

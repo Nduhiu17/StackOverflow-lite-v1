@@ -3,3 +3,4 @@ start.sh
 .vscode/
 __pycache__/
 .pytest_cache/
+.idea/

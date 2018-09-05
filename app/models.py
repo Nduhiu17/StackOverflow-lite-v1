@@ -2,18 +2,19 @@ import uuid
 
 from datetime import datetime
 
-#create a mock database
+# create a mock database
 MOCK_DATABASE = {
     "questions": [ ],
-     "answers": [ ]
+    "answers": [ ]
 
 }
 
 
 class Question:
     '''Class to model a question'''
+
     def __init__(self, title, body):
-        #method to initialize Question class
+        # method to initialize Question class
         self.id = uuid.uuid4()
         self.title = title
         self.body = body
@@ -21,7 +22,7 @@ class Question:
         self.date_modified = datetime.now()
 
     def json_dumps(self):
-            #method to return a json object from the question details
+        # method to return a json object from the question details
         obj = {
             "id": str(self.id),
             "title": self.title,
@@ -32,15 +33,15 @@ class Question:
         return obj
 
     def save(self):
-        #method to save a question
+        # method to save a question
         MOCK_DATABASE[ "questions" ].append(self)
         return self.json_dumps()
 
     @classmethod
-    def get_by_id(cls,id):
-        #method to get a question by id
+    def get_by_id(cls, id):
+        # method to get a question by id
         retrieved_question = Question
-        for item in MOCK_DATABASE['questions']:
+        for item in MOCK_DATABASE[ 'questions' ]:
             if str(item.id) == id:
                 retrieved_question = item.json_dumps()
                 answers = Answer.get_all_question_answers(question_id=id)
@@ -49,17 +50,18 @@ class Question:
 
     @classmethod
     def get_all(cls):
-        #method to get all questions
+        # method to get all questions
         all_questions = MOCK_DATABASE[ 'questions' ]
         get_all_json = [ ]
         for item in all_questions:
             get_all_json.append(item.json_dumps())
         return get_all_json
 
+
 class Answer:
     '''Class to model an answer'''
 
-    def __init__(self, body,question_id):
+    def __init__(self, body, question_id):
         # method to initialize Answer class
         self.id = uuid.uuid4()
         self.body = body
@@ -71,25 +73,25 @@ class Answer:
         # method to save an answer
         MOCK_DATABASE[ "answers" ].append(self)
         return self.json_dumps()
-    @classmethod
-    def get_all_question_answers(cls,question_id):
-        #method to get all answers of a given questions
-        all_answers = MOCK_DATABASE['answers']
 
-        answers_retrieved = []
+    @classmethod
+    def get_all_question_answers(cls, question_id):
+        # method to get all answers of a given question
+        all_answers = MOCK_DATABASE[ 'answers' ]
+
+        answers_retrieved = [ ]
 
         for answer in all_answers:
             if answer.question_id == question_id:
                 answers_retrieved.append(answer.json_dumps())
         return answers_retrieved
 
-
     def json_dumps(self):
         # method to return a json object from the answer details
         ans = {
             "id": str(self.id),
             "body": self.body,
-            "question_id":self.question_id,
+            "question_id": self.question_id,
             "date_created": str(self.date_created),
             "date_modified": str(self.date_modified)
         }
