@@ -75,3 +75,8 @@ class UsersResource(Resource):
                     password=request.json[ 'password' ])
         saved_user = user.save_user()
         return {"status": "The user saved successfully", "data": saved_user}, 201
+
+    def get(self):
+        # method that gets all users resource
+        users = User.get_all_users()
+        return {"status": "Success", "data": users}, 200
