@@ -98,10 +98,12 @@ class Answer:
         }
         return ans
 
+
 class User:
     '''Class to model a user'''
-    def __init__(self, username, email,password):
-        #method to initialize User class
+
+    def __init__(self, username, email, password):
+        # method to initialize User class
         self.id = uuid.uuid4()
         self.username = username
         self.email = email
@@ -110,6 +112,24 @@ class User:
         self.date_modified = datetime.now()
 
     def save_user(self):
-        MOCK_DATABASE["users"].append(self)
+        #method to save a user
+        MOCK_DATABASE[ "users" ].append(self)
 
+    @classmethod
+    # method to get all users
+    def get_all_users(cls):
+        all_users = MOCK_DATABASE[ 'users' ]
+        get_all_users_json = [ ]
+        for item in all_users:
+            get_all_users_json.append(item.json_dumps())
+        return get_all_users_json
 
+    def json_dumps(self):
+        #this method returns a user as a dict
+        user = {
+            "id": str(self.id),
+            "username": self.username,
+            "email": self.email,
+            "date_created": str(self.date_created)
+        }
+        return user

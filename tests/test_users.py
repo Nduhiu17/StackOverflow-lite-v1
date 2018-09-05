@@ -4,8 +4,7 @@ from app import app
 from config import TestingConfig
 import json
 
-
-from app.models import User,MOCK_DATABASE
+from app.models import User, MOCK_DATABASE
 
 
 class TestUser(unittest.TestCase):
@@ -20,8 +19,8 @@ class TestUser(unittest.TestCase):
         pass
 
     def test_init(self):
-        #test a user is initialised
-        self.new_user = User(username="Jane",email="jane@mail.com",password="password")
+        # test a user is initialised
+        self.new_user = User(username="Jane", email="jane@mail.com", password="password")
         self.assertTrue(type(self.new_user.id), int)
         self.assertEqual(type(self.new_user), User)
 
@@ -41,3 +40,8 @@ class TestUser(unittest.TestCase):
         response = self.client.post('api/v1/users', data=json.dumps(new_user),
                                     headers={'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 400)
+
+    def test_get_users(self):
+        # test can get all users
+        response = self.client.get('/api/v1/users', content_type='application/json')
+        self.assertEqual(response.status_code, 200)
