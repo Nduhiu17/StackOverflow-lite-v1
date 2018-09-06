@@ -1,0 +1,80 @@
+FORMAT: 1A
+HOST: https://antony-stackoverflow-v1.herokuapp.com/
+
+# StackOverflow-Lite-v1
+
+StackOverflow-lite is a platform where users can ask questions and post answers to questions.
+
+
+
+## Questions Collection [/api/v1/questions]
+
+### Get All Questions [GET]
+
++ Response 200 (application/json)
+
+        {
+             "status": "Success",
+             "data": [
+        {
+            "id": "7f9bc51d-b2dd-47c2-acc1-4c790f9a4ad3",
+            "title": "error sit voluptatem accusantium doloremque laudantium?",
+            "body": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+            "date_created": "2018-09-06 15:36:11.765016",
+            "date_modified": "2018-09-06 15:36:11.765034"
+        },
+        {
+            "id": "a60da95a-f7e6-43ab-b9e6-48cb0b979983",
+            "title": "dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "body": "jodggggggvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+            "date_created": "2018-09-06 15:40:15.396444",
+            "date_modified": "2018-09-06 15:40:15.396463"
+        },
+        {
+            "id": "4c513805-ee23-417d-a6b8-affdc71fb2f7",
+            "title": "dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "body": "jodggggggvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+            "date_created": "2018-09-06 15:40:20.220024",
+            "date_modified": "2018-09-06 15:40:20.220037"
+        }
+   
+            ]
+        }
+     
+        
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question.
+
++ Request (application/json)
+
++ Response 201 (application/json)
+
+    + Headers
+
+    + Body
+
+             {
+                "title":"fffffffffffffffffffffffffffffffffffffffffffffffff",
+                "body":"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+            }
+
+## Answers Collection [/api/v1/questions/<string:id>/anwsers]
+### Answer a question [POST]
+
+You may answer a question using this action. It takes a JSON
+object containing an answer body.Take note that the URL has an question id
+
++ Request (application/json)
+
++ Response 201 (application/json)
+
+    + Headers
+
+    + Body
+
+             {
+                
+                "body":"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+            }
