@@ -107,32 +107,14 @@ class Answer:
         get_all_answers_json = []
         for item in all_answers:
             get_all_answers_json.append(item.json_dumps())
-
         number_of_answers = len(get_all_answers_json)
-
         next_id = number_of_answers + 1
-
         return next_id
-
-    @classmethod
-    def id_generator(cls):
-        #this method generates id for questions
-        all_questions = MOCK_DATABASE['questions']
-        get_all_questions_json = []
-        for item in all_questions:
-            get_all_questions_json.append(item.json_dumps())
-
-        number_of_questions = len(get_all_questions_json)
-
-        next_id = number_of_questions + 1
-
-        return next_id
-
 
     def json_dumps(self):
         # method to return a json object from the answer details
         ans = {
-            "id": str(self.id),
+            "id": self.id,
             "body": self.body,
             "question_id": self.question_id,
             "date_created": str(self.date_created),
