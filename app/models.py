@@ -16,7 +16,7 @@ class Question:
 
     def __init__(self, title, body):
         # method to initialize Question class
-        self.id = uuid.uuid4()
+        self.id = Question.id_generator()
         self.title = title
         self.body = body
         self.date_created = datetime.now()
@@ -25,7 +25,7 @@ class Question:
     def json_dumps(self):
         # method to return a json object from the question details
         obj = {
-            "id": str(self.id),
+            "id": self.id,
             "title": self.title,
             "body": self.body,
             "date_created": str(self.date_created),
@@ -48,6 +48,19 @@ class Question:
                 answers = Answer.get_all_question_answers(question_id=id)
                 retrieved_question['answers'] = answers
                 return retrieved_question
+    @classmethod
+    def id_generator(cls):
+        #this method generates id for questions
+        all_questions = MOCK_DATABASE['questions']
+        get_all_questions_json = []
+        for item in all_questions:
+            get_all_questions_json.append(item.json_dumps())
+
+        number_of_questions = len(get_all_questions_json)
+
+        next_id = number_of_questions + 1
+
+        return next_id
 
     @classmethod
     def get_all(cls):
@@ -64,7 +77,7 @@ class Answer:
 
     def __init__(self, body, question_id):
         # method to initialize Answer class
-        self.id = uuid.uuid4()
+        self.id = Answer.id_generator()
         self.body = body
         self.question_id = question_id
         self.date_created = datetime.now()
@@ -87,10 +100,21 @@ class Answer:
                 answers_retrieved.append(answer.json_dumps())
         return answers_retrieved
 
+    @classmethod
+    def id_generator(cls):
+        #this method generates id for answers
+        all_answers = MOCK_DATABASE['answers']
+        get_all_answers_json = []
+        for item in all_answers:
+            get_all_answers_json.append(item.json_dumps())
+        number_of_answers = len(get_all_answers_json)
+        next_id = number_of_answers + 1
+        return next_id
+
     def json_dumps(self):
         # method to return a json object from the answer details
         ans = {
-            "id": str(self.id),
+            "id": self.id,
             "body": self.body,
             "question_id": self.question_id,
             "date_created": str(self.date_created),
@@ -104,11 +128,11 @@ class User:
 
     def __init__(self, username, email, password):
         # method to initialize User class
-        self.id = uuid.uuid4()
+        self.id = User.id_generator()
         self.username = username
         self.email = email
         self.password = password
-        self.date_created = datetime.now()
+        self.date_created    = datetime.now()
         self.date_modified = datetime.now()
 
     def save_user(self):
@@ -123,6 +147,21 @@ class User:
         for item in all_users:
             get_all_users_json.append(item.json_dumps())
         return get_all_users_json
+
+    @classmethod
+    def id_generator(cls):
+        #this method generates id for users
+        all_users = MOCK_DATABASE['users']
+        get_all_users_json = []
+        for item in all_users:
+            get_all_users_json.append(item.json_dumps())
+
+        number_of_users = len(get_all_users_json)
+
+        next_id = number_of_users + 1
+
+        return next_id
+
 
     def json_dumps(self):
         # this method returns a user as a dict
