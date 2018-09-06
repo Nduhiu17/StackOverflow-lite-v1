@@ -1,5 +1,5 @@
-from flask import Flask, jsonify
-from flask_restplus import Api
+from flask import Flask, jsonify, render_template
+from flask_restplus import Api, apidoc, Resource
 
 from app.models import Question, User
 from app.resources import QuestionsResource, QuestionResource, AnswersResource, UsersResource
@@ -9,15 +9,24 @@ app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 api = Api(app)
 
+
+class DocsResource(Resource):
+    '''Resource for documentation'''
+    @api.documentation
+    @app.route("/")
+    def docs():
+        return render_template("docs.html"), 200
+
+
 api.add_resource(QuestionsResource, '/api/v1/questions', '/api/v1/questions')
 api.add_resource(QuestionResource, '/api/v1/questions/<string:id>')
 api.add_resource(AnswersResource, '/api/v1/questions/<string:id>/anwsers')
-api.add_resource(UsersResource, '/api/v1/users','/api/v1/users')
-
+api.add_resource(UsersResource, '/api/v1/users', '/api/v1/users')
+api.add_resource(DocsResource, '/')
 
 
 @app.errorhandler(404)
-#This method handles error 404
+# This method handles error 404
 def error_404(e):
     return jsonify({"message": "Sorry!!!The page you were looking for was not found.Kindly countercheck the url"}), 404
 
@@ -28,9 +37,8 @@ def seeding():
                             body="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium")
     new_question.save()
 
-    new_user = User(username = "Nduhiumundia", email="antony@gmail.com",password="njksandknpoi20909HHKJ5522765@@")
+    new_user = User(username="Nduhiumundia", email="antony@gmail.com", password="njksandknpoi20909HHKJ5522765@@")
     new_user.save_user()
 
 
 seeding()
-

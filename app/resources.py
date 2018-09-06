@@ -84,3 +84,4 @@ class UsersResource(Resource):
         # method that gets all users resource
         users = User.get_all_users()
         return {"status": "Success", "data": users}, 200
+
