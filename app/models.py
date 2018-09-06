@@ -4,9 +4,9 @@ from datetime import datetime
 
 # create a mock database
 MOCK_DATABASE = {
-    "questions": [ ],
-    "answers": [ ],
-    "users": [ ]
+    "questions": [],
+    "answers": [],
+    "users": []
 
 }
 
@@ -35,25 +35,25 @@ class Question:
 
     def save(self):
         # method to save a question
-        MOCK_DATABASE[ "questions" ].append(self)
+        MOCK_DATABASE["questions"].append(self)
         return self.json_dumps()
 
     @classmethod
     def get_by_id(cls, id):
         # method to get a question by id
         retrieved_question = Question
-        for item in MOCK_DATABASE[ 'questions' ]:
+        for item in MOCK_DATABASE['questions']:
             if str(item.id) == id:
                 retrieved_question = item.json_dumps()
                 answers = Answer.get_all_question_answers(question_id=id)
-                retrieved_question[ 'answers' ] = answers
+                retrieved_question['answers'] = answers
                 return retrieved_question
 
     @classmethod
     def get_all(cls):
         # method to get all questions
-        all_questions = MOCK_DATABASE[ 'questions' ]
-        get_all_json = [ ]
+        all_questions = MOCK_DATABASE['questions']
+        get_all_json = []
         for item in all_questions:
             get_all_json.append(item.json_dumps())
         return get_all_json
@@ -72,15 +72,15 @@ class Answer:
 
     def save(self):
         # method to save an answer
-        MOCK_DATABASE[ "answers" ].append(self)
+        MOCK_DATABASE["answers"].append(self)
         return self.json_dumps()
 
     @classmethod
     def get_all_question_answers(cls, question_id):
         # method to get all answers of a given question
-        all_answers = MOCK_DATABASE[ 'answers' ]
+        all_answers = MOCK_DATABASE['answers']
 
-        answers_retrieved = [ ]
+        answers_retrieved = []
 
         for answer in all_answers:
             if answer.question_id == question_id:
@@ -112,20 +112,20 @@ class User:
         self.date_modified = datetime.now()
 
     def save_user(self):
-        #method to save a user
-        MOCK_DATABASE[ "users" ].append(self)
+        # method to save a user
+        MOCK_DATABASE["users"].append(self)
 
     @classmethod
     # method to get all users
     def get_all_users(cls):
-        all_users = MOCK_DATABASE[ 'users' ]
-        get_all_users_json = [ ]
+        all_users = MOCK_DATABASE['users']
+        get_all_users_json = []
         for item in all_users:
             get_all_users_json.append(item.json_dumps())
         return get_all_users_json
 
     def json_dumps(self):
-        #this method returns a user as a dict
+        # this method returns a user as a dict
         user = {
             "id": str(self.id),
             "username": self.username,
