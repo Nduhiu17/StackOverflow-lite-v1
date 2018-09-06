@@ -21,15 +21,14 @@ Please click [heroku-link](https://antony-stackoverflow-v1.herokuapp.com) to get
 
 #### Endpoints
 
-| METHOD | ENDPOINT                                        | DESCRIPTION                      |
-| ------ | ---------------------------------------------   | -------------------------------- |
-| POST   | '/api/v1/user/signup'                           | User registration                |
-| POST   | '/api/v1/user/login '                           | Login signed up user             |
-| POST   | '/api/v1/user/entries '                         | Create a new entry               |
-| GET    | '/api/v1/user/entries/<int:entry_id>'           | Fetch a single entry             |
-| GET    | '/api/v1/user/entries'                          | Fetch all entries                |
-| PUT    | '/api/v1/user/entries/<int:entry_id>'           | Modify an entry                  |
-| DELETE | '/api/v1/user/entries/<int:entry_id>'           | Delete an entry                  |
+| METHOD | ENDPOINT                                            | DESCRIPTION                         |
+| ------ | ---------------------------------------------       | --------------------------------    |
+| POST   | '/api/v1/users/'                                    | User registration                   |
+| POST   | '/api/v1/user/questions '                           | Create a new question               |
+| POST   | '/api/v1/user/questions/<int:question_id>/answers'  | Create a new answer to a question   |
+| GET    | '/api/v1/user/questions/<int:question_id>'          | Fetch a single question             |
+| GET    | '/api/v1/user/questions'                            | Fetch all questions                 |
+| GET    | '/api/v1/user/users'                                | Fetch all users - Admin             |
 
 #### Prerequisites
 - [Python3](https://www.python.org/) (A programming language)
@@ -69,14 +68,24 @@ Install requirements
 
   $ pip install -r requirements.txt
 
-Create a start.sh file and export you app's secret key inside as shown by example_start.sh
+Create a start.sh file and export your app's secret key inside as shown by example_start.sh
 
-git the file executable permissions
+Give the file executable permissions by right clicking the file and checking the execute button as shown by the image below:
+
+![start](https://user-images.githubusercontent.com/30591881/45145592-b6e7fd80-b1c9-11e8-8966-4c9ae39c6f4b.png)
 
 Run the app by:
 
     $ ./start.sh
 
-Run the test by:
+#### Running the tests
+
+Export your secret key in your test.sh file.
+
+Give your test.sh file executable permissions as shown by the image below:
+
+![test](https://user-images.githubusercontent.com/30591881/45145872-5d340300-b1ca-11e8-873a-fe9d9f5c4874.png)
+
+Run the tests by:
 
     $ ./test.sh
