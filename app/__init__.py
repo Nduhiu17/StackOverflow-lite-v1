@@ -12,7 +12,7 @@ api = Api(app)
 api.add_resource(QuestionsResource, '/api/v1/questions', '/api/v1/questions')
 api.add_resource(QuestionResource, '/api/v1/questions/<string:id>')
 api.add_resource(AnswersResource, '/api/v1/questions/<string:id>/anwsers')
-api.add_resource(UsersResource, '/api/v1/users')
+api.add_resource(UsersResource, '/api/v1/users','/api/v1/users')
 
 
 
