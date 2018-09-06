@@ -1,5 +1,4 @@
 import unittest
-from datetime import datetime
 from app import app
 from config import TestingConfig
 import json
@@ -25,7 +24,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(type(self.new_user), User)
 
     def test_save(self):
-        self.assertTrue(len(MOCK_DATABASE[ 'users' ]) > 0)
+        self.assertTrue(len(MOCK_DATABASE['users']) > 0)
 
     def test_user_saved(self):
         # method to test a user can be registered
