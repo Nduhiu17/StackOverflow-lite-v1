@@ -26,7 +26,7 @@ class TestQuestion(unittest.TestCase):
         self.assertEqual(type(self.new_question), Question)
 
     def test_question_posted(self):
-            # method to test a question can be posted
+        # method to test a question can be posted
         new_question = {'title': 'error sit voluptatem accusantium doloremque laudantium',
                         'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit volupta'}
         response = self.client.post('api/v1/questions', data=json.dumps(new_question),
@@ -34,9 +34,10 @@ class TestQuestion(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
 
     def test__post_invalid_title(self):
-            # test cant post with an invalid title
+        # test cant post with an invalid title
         new_question = {'title': 'shotitle',
-                        'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit voluptatem accusantium doloremque laudantium'}
+                        'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit voluptatem '
+                                'accusantium doloremque laudantium'}
         response = self.client.post('api/v1/questions', data=json.dumps(new_question),
                                     headers={'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 400)
@@ -50,19 +51,19 @@ class TestQuestion(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_get_a_single_question(self):
-        #method to get a single question
+        # method to get a single question
         question = MOCK_DATABASE['questions'][0]
-        response = self.client.get(f'api/v1/questions/{question.id}',content_type='application/json')
+        response = self.client.get(f'api/v1/questions/{question.id}', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
 
     def test_get_non_existing_question(self):
-        question = MOCK_DATABASE[ 'questions' ][ 0 ]
+        question = MOCK_DATABASE['questions'][0]
         response = self.client.get(f'api/v1/questions/gggggg-ggggggggg-gggggggg', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 404)
 
     def test_get_all_questions(self):
-            # test can get all questions
+        # test can get all questions
         response = self.client.get('/api/v1/questions', content_type='application/json')
         self.assertEqual(response.status_code, 200)
