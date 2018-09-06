@@ -23,3 +23,5 @@ class TestQuestion(unittest.TestCase):
         response = self.client.post('api/v1/questionsm#@$', data=json.dumps(new_question),
                                     headers={'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 404)
+
+

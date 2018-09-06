@@ -1,5 +1,3 @@
-import uuid
-
 from datetime import datetime
 
 # create a mock database
@@ -102,7 +100,7 @@ class Answer:
 
     @classmethod
     def id_generator(cls):
-        #this method generates id for answers
+        #this method generates id for each answer
         all_answers = MOCK_DATABASE['answers']
         get_all_answers_json = []
         for item in all_answers:
