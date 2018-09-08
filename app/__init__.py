@@ -1,28 +1,40 @@
-from flask import Flask, jsonify, render_template
-from flask_restplus import Api, apidoc, Resource
+from flask import Flask, jsonify, render_template, Blueprint
+from flask_restplus import Api, Resource, apidoc, fields
 
 from app.models import Question, User
-from app.resources import QuestionsResource, QuestionResource, AnswersResource, UsersResource
+
 from config import DevelopmentConfig
+
+authorization = {
+    'apiKey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    }
+}
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 api = Api(app)
+blueprint = Blueprint('api', __name__, url_prefix='/api')
+# api = Api(blueprint, doc='/doc/')
+
+api = Api(blueprint,
+          title='StackOverflow - Lite',
+          version='1',
+          description='An api to create a question, create an answer to a question ,get all questions and get a single '
+                      'question with its answers',
+          authorizations=authorization,
+          doc='/doc/'
+          )
 
 
-class DocsResource(Resource):
-    '''Resource for documentation'''
-    @api.documentation
-    @app.route("/")
-    def docs():
-        return render_template("docs.html"), 200
+
+def swagger_ui():
+    return apidoc.ui_for(api)
 
 
-api.add_resource(QuestionsResource, '/api/v1/questions', '/api/v1/questions')
-api.add_resource(QuestionResource, '/api/v1/questions/<string:id>')
-api.add_resource(AnswersResource, '/api/v1/questions/<string:id>/anwsers')
-api.add_resource(UsersResource, '/api/v1/users', '/api/v1/users')
-api.add_resource(DocsResource, '/')
+app.register_blueprint(blueprint)
 
 
 @app.errorhandler(404)
@@ -42,3 +54,5 @@ def seeding():
 
 
 seeding()
+
+from . import views

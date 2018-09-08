@@ -1,6 +1,7 @@
 import json
 import unittest
 from app import app
+from app.models import MOCK_DATABASE
 from config import TestingConfig
 
 
@@ -14,7 +15,7 @@ class TestQuestion(unittest.TestCase):
         self.app.testing = True
 
     def tearDown(self):
-        pass
+        MOCK_DATABASE['questions'] = []
 
     def test_errror_404_handler(self):
         # method to test error 404 handler

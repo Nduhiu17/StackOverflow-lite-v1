@@ -15,7 +15,7 @@ class TestUser(unittest.TestCase):
         self.app.testing = True
 
     def tearDown(self):
-        pass
+        MOCK_DATABASE['users'] = []
 
     def test_init(self):
         # test a user is initialised

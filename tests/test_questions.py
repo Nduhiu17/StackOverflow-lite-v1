@@ -16,7 +16,7 @@ class TestQuestion(unittest.TestCase):
         self.app.testing = True
 
     def tearDown(self):
-        pass
+        MOCK_DATABASE['questions'] = []
 
     def test_init(self):
         # test that a question is initialized
@@ -36,6 +36,15 @@ class TestQuestion(unittest.TestCase):
     def test__post_invalid_title(self):
         # test cant post with an invalid title
         new_question = {'title': 'shotitle',
+                        'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit voluptatem '
+                                'accusantium doloremque laudantium'}
+        response = self.client.post('api/v1/questions', data=json.dumps(new_question),
+                                    headers={'Content-Type': 'application' '/json'})
+        self.assertEqual(response.status_code, 400)
+
+    def test__post_invalid_title_int(self):
+        # test cant post with an invalid title
+        new_question = {'title': 222222222222222222222222222222222222222222,
                         'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit voluptatem '
                                 'accusantium doloremque laudantium'}
         response = self.client.post('api/v1/questions', data=json.dumps(new_question),
