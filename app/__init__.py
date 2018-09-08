@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template
 from flask_restplus import Api, apidoc, Resource
 
 from app.models import Question, User
-from app.resources import QuestionsResource, QuestionResource, AnswersResource, UsersResource
+from app.views import QuestionsResource, QuestionResource, AnswersResource, UsersResource
 from config import DevelopmentConfig
 
 app = Flask(__name__)
