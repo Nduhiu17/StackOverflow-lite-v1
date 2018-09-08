@@ -20,12 +20,12 @@ class QuestionsResource(Resource):
             return {'message': 'The length of both body should be atleast 15 characters'}, 400
         question = Question(title=request.json['title'], body=request.json['body'])
         saved_question = question.save()
-        return {"status": "The question posted successfully", "data": saved_question}, 201
+        return {"message": "The question posted successfully", "data": saved_question}, 201
 
     def get(self):
         # method that gets all questions resource
         questions = Question.get_all()
-        return {"status": "Success", "data": questions}, 200
+        return {"message": "Success", "data": questions}, 200
 
 
 class AnswersResource(Resource):
@@ -44,7 +44,7 @@ class AnswersResource(Resource):
             return {'message': 'The question with that id was not found'}, 404
         answer = Answer(body=request.json['body'], question_id=id)
         saved_answer = answer.save()
-        return {"status": "The answer was posted successfully", "data": saved_answer}, 201
+        return {"message": "The answer was posted successfully", "data": saved_answer}, 201
 
 
 class QuestionResource(Resource):
@@ -58,7 +58,7 @@ class QuestionResource(Resource):
         if question == None:
             return {"status": "No question with that id"}, 404
 
-        return {"status": "Success", "data": question}, 200
+        return {"message": "Success", "data": question}, 200
 
 
 class UsersResource(Resource):
@@ -78,10 +78,10 @@ class UsersResource(Resource):
                     password=request.json['password'])
         user.save_user()
         user = user.json_dumps()
-        return {"status": "The user saved successfully", "data": user}, 201
+        return {"message": "The user saved successfully", "data": user}, 201
 
     def get(self):
         # method that gets all users resource
         users = User.get_all_users()
-        return {"status": "Success", "data": users}, 200
+        return {"message": "Success", "data": users}, 200
 

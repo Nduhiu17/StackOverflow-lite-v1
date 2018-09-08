@@ -15,8 +15,6 @@ class TestQuestion(unittest.TestCase):
         self.client = self.app.test_client()
         self.app.testing = True
 
-    def tearDown(self):
-        pass
 
     def test_init(self):
         # test that a question is initialized
