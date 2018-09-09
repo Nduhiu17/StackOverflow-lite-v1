@@ -1,19 +1,23 @@
 from datetime import datetime
 
 # create a mock database
+from app.database import connect_to_db
+
 MOCK_DATABASE = dict(questions=[], answers=[], users=[])
 
+
+cursor = connect_to_db()
 
 class Question:
     '''Class to model a question'''
 
-    def __init__(self, title, body):
+    def __init__(self,id, title, body,date_created,date_modified):
         # method to initialize Question class
-        self.id = Question.id_generator()
+        self.id = id
         self.title = title
         self.body = body
-        self.date_created = datetime.now()
-        self.date_modified = datetime.now()
+        self.date_created = date_created
+        self.date_modified = date_modified
 
     def json_dumps(self):
         # method to return a json object from the question details
@@ -41,23 +45,19 @@ class Question:
                 answers = Answer.get_all_question_answers(question_id=id)
                 retrieved_question['answers'] = answers
                 return retrieved_question
-    @classmethod
-    def id_generator(cls):
-        #this method generates id for questions
-        all_questions = MOCK_DATABASE['questions']
-        number_of_questions = len(all_questions)
-        next_id = number_of_questions + 1
-
-        return next_id
 
     @classmethod
     def get_all(cls):
         # method to get all questions
-        all_questions = MOCK_DATABASE['questions']
-        get_all_json = []
-        for item in all_questions:
-            get_all_json.append(item.json_dumps())
-        return get_all_json
+        cursor.execute(
+            f"SELECT * FROM public.questions")
+        rows = cursor.fetchall()
+        list_dict = []
+
+        for item in rows:
+            new = Question(id=item[0],title=item[1],body=item[2],date_created=item[3],date_modified=item[4])
+            list_dict.append(new.json_dumps())
+        return list_dict
 
 
 class Answer:
