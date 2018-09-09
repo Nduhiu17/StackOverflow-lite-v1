@@ -2,7 +2,6 @@ from flask import Flask, jsonify, Blueprint
 from flask_restplus import Api
 
 from app.models import Question, User
-
 from config import DevelopmentConfig
 
 authorization = {

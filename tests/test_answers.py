@@ -1,6 +1,6 @@
 import json
 import unittest
-from app import app
+from app import app, seeding
 from app.models import Answer, MOCK_DATABASE
 from config import TestingConfig
 
@@ -20,6 +20,7 @@ class TestAnswer(unittest.TestCase):
 
     def test_init(self):
         # test that an answer is initialized
+        seeding()
         question = MOCK_DATABASE['questions'][0]
         self.new_answer = Answer(body="This is how to init python how to init python how to init python",
                                  question_id=question.id)

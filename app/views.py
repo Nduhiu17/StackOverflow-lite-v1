@@ -42,8 +42,7 @@ class QuestionsResource(Resource):
     def get(self):
         # method that gets all questions resource
         questions = Question.get_all()
-        return {"message": "200", "data": questions}, 200
-
+        return {"message": "Success", "data": questions}, 200
 
 new_answer = api_v1.model('Answer', {
     'body': fields.String
@@ -84,7 +83,6 @@ class QuestionResource(Resource):
             return {"status": "No question with that id"}, 404
 
         return {"message": "Success", "data": question}, 200
-
 
 new_user = api_v1.model('User', {
     'username': fields.String,
