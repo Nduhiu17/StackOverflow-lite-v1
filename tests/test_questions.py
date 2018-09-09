@@ -1,6 +1,6 @@
 import json
 import unittest
-from app import app
+from app import app, seeding
 from app.models import Question, MOCK_DATABASE
 from config import TestingConfig
 
@@ -14,7 +14,10 @@ class TestQuestion(unittest.TestCase):
         self.app.config.from_object(TestingConfig)
         self.client = self.app.test_client()
         self.app.testing = True
+        seeding()
 
+    def tearDown(self):
+        MOCK_DATABASE = dict(questions=[], answers=[], users=[])
 
     def test_init(self):
         # test that a question is initialized
@@ -40,6 +43,24 @@ class TestQuestion(unittest.TestCase):
                                     headers={'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 400)
 
+    def test__post_invalid_title_(self):
+        # test cant post with an invalid title
+        new_question = {'title': "hj",
+                        'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit voluptatem '
+                                'accusantium doloremque laudantium'}
+        response = self.client.post('api/v1/questions', data=json.dumps(new_question),
+                                    headers={'Content-Type': 'application' '/json'})
+        self.assertEqual(response.status_code, 400)
+
+    def test__post_invalid_title_int(self):
+        # test cant post with an invalid title
+        new_question = {'title': 12345678910111213,
+                        'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit voluptatem '
+                                'accusantium doloremque laudantium'}
+        response = self.client.post('api/v1/questions', data=json.dumps(new_question),
+                                    headers={'Content-Type': 'application' '/json'})
+        self.assertEqual(response.status_code, 400)
+
     def test_post_invalid_body(self):
         # test cant post with an invalid body
         new_question = {'title': 'error sit voluptatem accusantium doloremque laudantium',
@@ -50,13 +71,14 @@ class TestQuestion(unittest.TestCase):
 
     def test_get_a_single_question(self):
         # method to get a single question
+
         question = MOCK_DATABASE['questions'][0]
         response = self.client.get(f'api/v1/questions/{question.id}', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
 
     def test_get_non_existing_question(self):
-        question = MOCK_DATABASE['questions'][0]
+        # question = MOCK_DATABASE['questions'][0]
         response = self.client.get(f'api/v1/questions/gggggg-ggggggggg-gggggggg', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 404)

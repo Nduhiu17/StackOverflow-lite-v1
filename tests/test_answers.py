@@ -15,6 +15,8 @@ class TestAnswer(unittest.TestCase):
         self.client = self.app.test_client()
         self.app.testing = True
 
+    def tearDown(self):
+        MOCK_DATABASE = dict(questions=[], answers=[], users=[])
 
     def test_init(self):
         # test that an answer is initialized

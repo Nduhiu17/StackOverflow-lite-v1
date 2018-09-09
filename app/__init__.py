@@ -1,28 +1,41 @@
-from flask import Flask, jsonify, render_template
-from flask_restplus import Api, apidoc, Resource
+from flask import Flask, jsonify, Blueprint
+from flask_restplus import Api
 
 from app.models import Question, User
-from app.views import QuestionsResource, QuestionResource, AnswersResource, UsersResource
 from config import DevelopmentConfig
+
+authorization = {
+    'apiKey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    }
+}
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
-api = Api(app)
+blueprint = Blueprint('api', __name__)
+blueprint_2 = Blueprint('home', __name__)
 
+api_v1 = Api(blueprint,
+             title='StackOverflow - Lite',
+             version='1',
+             description='An api to create a question, create an answer to a question ,get all questions and get a single '
+                         'question with its answers',
+             authorizations=authorization,
+             )
 
-class DocsResource(Resource):
-    '''Resource for documentation'''
-    @api.documentation
-    @app.route("/")
-    def docs():
-        return render_template("docs.html"), 200
+api_home = Api(blueprint_2,
+               title='StackOverflow - Lite',
+               version='1',
+               description='An api to create a question, create an answer to a question ,get all questions and get a single '
+                           'question with its answers',
+               authorizations=authorization,
+               doc='/docv/',
+               base_url="/"
+               )
 
-
-api.add_resource(QuestionsResource, '/api/v1/questions', '/api/v1/questions')
-api.add_resource(QuestionResource, '/api/v1/questions/<string:id>')
-api.add_resource(AnswersResource, '/api/v1/questions/<string:id>/anwsers')
-api.add_resource(UsersResource, '/api/v1/users', '/api/v1/users')
-api.add_resource(DocsResource, '/')
+app.register_blueprint(blueprint)
 
 
 @app.errorhandler(404)
@@ -42,3 +55,5 @@ def seeding():
 
 
 seeding()
+
+from . import views
