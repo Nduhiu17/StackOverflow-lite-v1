@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, render_template, Blueprint
-from flask_restplus import Api, Resource, apidoc, fields
+from flask import Flask, jsonify, Blueprint
+from flask_restplus import Api
 
 from app.models import Question, User
 
@@ -15,24 +15,26 @@ authorization = {
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
-api = Api(app)
-blueprint = Blueprint('api', __name__, url_prefix='/api')
-# api = Api(blueprint, doc='/doc/')
+blueprint = Blueprint('api', __name__)
+blueprint_2 = Blueprint('home', __name__)
 
-api = Api(blueprint,
-          title='StackOverflow - Lite',
-          version='1',
-          description='An api to create a question, create an answer to a question ,get all questions and get a single '
-                      'question with its answers',
-          authorizations=authorization,
-          doc='/doc/'
-          )
+api_v1 = Api(blueprint,
+             title='StackOverflow - Lite',
+             version='1',
+             description='An api to create a question, create an answer to a question ,get all questions and get a single '
+                         'question with its answers',
+             authorizations=authorization,
+             )
 
-
-
-def swagger_ui():
-    return apidoc.ui_for(api)
-
+api_home = Api(blueprint_2,
+               title='StackOverflow - Lite',
+               version='1',
+               description='An api to create a question, create an answer to a question ,get all questions and get a single '
+                           'question with its answers',
+               authorizations=authorization,
+               doc='/docv/',
+               base_url="/"
+               )
 
 app.register_blueprint(blueprint)
 

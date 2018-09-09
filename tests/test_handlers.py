@@ -7,8 +7,9 @@ from config import TestingConfig
 
 class TestQuestion(unittest.TestCase):
     '''class to test a question'''
+
     def setUp(self):
-        #setting up configurations for testing
+        # setting up configurations for testing
         self.app = app
         self.app.config.from_object(TestingConfig)
         self.client = self.app.test_client()
@@ -24,5 +25,3 @@ class TestQuestion(unittest.TestCase):
         response = self.client.post('api/v1/questionsm#@$', data=json.dumps(new_question),
                                     headers={'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 404)
-
-

@@ -1,12 +1,7 @@
 from datetime import datetime
 
 # create a mock database
-MOCK_DATABASE = {
-    "questions": [],
-    "answers": [],
-    "users": []
-
-}
+MOCK_DATABASE = dict(questions=[], answers=[], users=[])
 
 
 class Question:
@@ -50,12 +45,7 @@ class Question:
     def id_generator(cls):
         #this method generates id for questions
         all_questions = MOCK_DATABASE['questions']
-        get_all_questions_json = []
-        for item in all_questions:
-            get_all_questions_json.append(item.json_dumps())
-
-        number_of_questions = len(get_all_questions_json)
-
+        number_of_questions = len(all_questions)
         next_id = number_of_questions + 1
 
         return next_id
