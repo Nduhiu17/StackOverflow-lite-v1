@@ -1,6 +1,8 @@
 import json
 import unittest
-from app import app, seeding
+from datetime import datetime
+
+from app import app
 from app.models import Question, MOCK_DATABASE
 from config import TestingConfig
 
@@ -12,17 +14,20 @@ class TestQuestion(unittest.TestCase):
         # setting up configurations for testing
         self.app = app
         self.app.config.from_object(TestingConfig)
+        self.new_question = Question(id=4, title="how to init python",
+                                     body="how to init python how to init python how to init python",
+                                     date_created=datetime.now(), date_modified=datetime.now())
+        self.new_question.save()
         self.client = self.app.test_client()
         self.app.testing = True
-        seeding()
 
     def tearDown(self):
         MOCK_DATABASE = dict(questions=[], answers=[], users=[])
 
     def test_init(self):
         # test that a question is initialized
-        self.new_question = Question(title="how to init python",
-                                     body="how to init python how to init python how to init python")
+        self.new_question = Question(id=4,title="how to init python",
+                                     body="how to init python how to init python how to init python",date_created=datetime.now(),date_modified=datetime.now())
         self.assertTrue(type(self.new_question.id), int)
         self.assertEqual(type(self.new_question), Question)
 

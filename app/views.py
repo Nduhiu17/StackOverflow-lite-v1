@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 from flask_restplus import Resource, reqparse, fields
 from flask import request
@@ -34,7 +35,7 @@ class QuestionsResource(Resource):
             return {'message': 'The length of both title should be atleast 10 characters'}, 400
         if len(data['body']) < 20:
             return {'message': 'The length of both body should be atleast 15 characters'}, 400
-        question = Question(title=request.json['title'], body=request.json['body'])
+        question = Question(id=0,title=request.json['title'], body=request.json['body'],date_created=datetime.now(),date_modified=datetime.now())
         print(type(data['title']))
         saved_question = question.save()
         return {"message": "The question posted successfully", "data": saved_question}, 201

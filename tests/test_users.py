@@ -1,5 +1,5 @@
 import unittest
-from app import app, seeding
+from app import app
 from config import TestingConfig
 import json
 
@@ -11,6 +11,8 @@ class TestUser(unittest.TestCase):
     def setUp(self):
         self.app = app
         self.app.config.from_object(TestingConfig)
+        self.new_user = User(username="Jane", email="jane@mail.com", password="password")
+        self.new_user.save_user()
         self.client = self.app.test_client()
         self.app.testing = True
 
@@ -24,7 +26,6 @@ class TestUser(unittest.TestCase):
         self.assertEqual(type(self.new_user), User)
 
     def test_save(self):
-        seeding()
         self.assertTrue(len(MOCK_DATABASE['users']) > 0)
 
     def test_user_saved(self):
