@@ -9,11 +9,11 @@ StackOverflow-lite is a platform where users can ask questions and post answers 
 #### Development
 This Application is developed using Python datastructures with Flask restplus framework 
 
-Please click [gh-pages](https://nduhiu17.github.io/StackOverflow-lite/) to view my UI pages
+Please click [gh-pages](https://nduhiu17.github.io/StackOverflow-lite/) to view UI templates hosted on gh-pages
 
-Please click [heroku-link](https://antony-stackoverflow-v1.herokuapp.com) to get and test API end points on postman
+Please click [heroku-link](https://antony-stackoverflow-v1.herokuapp.com) to get and test the non-persistence API end points on postman
 
-Please click [code on git hub](https://github.com/Nduhiu17/StackOverflow-lite-v1/tree/challenge-two) to get the code on git hub
+Please click [code-on-github](https://github.com/Nduhiu17/StackOverflow-lite-v1/tree/challenge-two) to get challenge two  code on git hub that used python data structures with no database.
 
 #### Features
 - Users can post a question
