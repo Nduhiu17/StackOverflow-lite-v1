@@ -30,21 +30,43 @@ class Question:
         }
         return obj
 
-    def save(self):
-        # method to save a question
-        MOCK_DATABASE["questions"].append(self)
-        return self.json_dumps()
+    # def save(self):
+    #     # method to save a question
+    @staticmethod
+    def save(self, title, body, date_created, date_modified):
+        """Method to save an entry"""
+        format_str = f"""
+         INSERT INTO public.questions (title,body,date_created,date_modified)
+         VALUES ('{title}','{body}','{str(datetime.now())}','{str(datetime.now())}') ;
+         """
+        cursor.execute(format_str)
+
+        return {
+            "title": title,
+            "body": body,
+            "date_created": str(date_created),
+            "date_modified": str(date_modified)
+        }
+        # return self.json_dumps()
 
     @classmethod
     def get_by_id(cls, id):
-        # method to get a question by id
-        retrieved_question = Question
-        for item in MOCK_DATABASE['questions']:
-            if str(item.id) == id:
-                retrieved_question = item.json_dumps()
-                answers = Answer.get_all_question_answers(question_id=id)
-                retrieved_question['answers'] = answers
-                return retrieved_question
+        cursor.execute('SELECT * FROM "public"."questions" WHERE id=%s', (id,))
+        row = cursor.fetchone()
+        if row == None:
+            return {"message": "No question with that id"}, 404
+        question = {
+            "id": row[0],
+            "title": row[1],
+            "body": row[2],
+            "date_created": row[3],
+            "date_modified": row[4],
+        }
+        retrieved_question = question
+        answers = Answer.get_all_question_answers(question_id=id)
+        retrieved_question['answers'] = answers
+        return retrieved_question
+
 
     @classmethod
     def get_all(cls):
@@ -63,30 +85,54 @@ class Question:
 class Answer:
     '''Class to model an answer'''
 
-    def __init__(self, body, question_id):
+    def __init__(self, id,body, question_id,date_created,date_modified):
         # method to initialize Answer class
-        self.id = Answer.id_generator()
+        self.id = id
         self.body = body
         self.question_id = question_id
         self.date_created = datetime.now()
         self.date_modified = datetime.now()
 
-    def save(self):
+    def save(self,body,date_created,date_modified,question_id):
         # method to save an answer
-        MOCK_DATABASE["answers"].append(self)
-        return self.json_dumps()
+        # MOCK_DATABASE["answers"].append(self)
+        format_str = f"""
+                 INSERT INTO public.answers (body,question_id,date_created,date_modified)
+                 VALUES ('{body}',{question_id},'{str(datetime.now())}','{str(datetime.now())}');
+                 """
+        cursor.execute(format_str)
+        return {
+            "body": body,
+            "question_id":question_id,
+            "date_created":str(date_created),
+            "date_modified": str(date_modified)
+        }
 
     @classmethod
     def get_all_question_answers(cls, question_id):
         # method to get all answers of a given question
-        all_answers = MOCK_DATABASE['answers']
+        # all_answers = MOCK_DATABASE['answers']
+        #
+        # answers_retrieved = []
+        #
+        # for answer in all_answers:
+        #     if answer.question_id == question_id:
+        #         answers_retrieved.append(answer.json_dumps())
+        # return answers_retrieved
+        cursor.execute(
+            f"SELECT * FROM public.answers")
+        rows = cursor.fetchall()
+        answers_retrieved_dict = []
+        for answer in rows:
+            if answer[2] == int(question_id):
+                answer_question = Answer(id=answer[0],body=answer[1],question_id=answer[2],date_created=answer[3], date_modified=answer[4])
+                answers_retrieved_dict.append(answer_question.json_dumps())
+        return answers_retrieved_dict
 
-        answers_retrieved = []
-
-        for answer in all_answers:
-            if answer.question_id == question_id:
-                answers_retrieved.append(answer.json_dumps())
-        return answers_retrieved
+    cursor.execute(
+        f"SELECT * FROM public.questions")
+    rows = cursor.fetchall()
+    list_dict = []
 
     @classmethod
     def id_generator(cls):
