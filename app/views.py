@@ -35,10 +35,10 @@ class QuestionsResource(Resource):
             return {'message': 'The length of both title should be atleast 10 characters'}, 400
         if len(data['body']) < 20:
             return {'message': 'The length of both body should be atleast 15 characters'}, 400
-        question = Question(id=0,title=request.json['title'], body=request.json['body'],date_created=datetime.now(),date_modified=datetime.now())
-        print(type(data['title']))
-        saved_question = question.save()
-        return {"message": "The question posted successfully", "data": saved_question}, 201
+        question = Question.save(self,title=request.json['title'], body=request.json['body'],date_created=datetime.now(),date_modified=datetime.now())
+        # print(question.title)
+        # print(question)
+        return {"message": "The question posted successfully", "data": question}, 201
 
     def get(self):
         # method that gets all questions resource
@@ -53,12 +53,12 @@ new_answer = api_v1.model('Answer', {
 @ns.route('/questions/<string:id>/anwsers')
 class AnswersResource(Resource):
     '''Answers class resource'''
-
     @api_v1.expect(new_answer)
     def post(self, id):
         # method that post a question resource
         parser = reqparse.RequestParser()
         parser.add_argument('body', help='The body field cannot be blank', required=True, type=str)
+        parser.add_argument('question_id', help='The question_id field cannot be blank', required=True, type=str)
         data = parser.parse_args()
         json_data = request.get_json(force=True)
         if len(data['body']) < 15:
@@ -66,9 +66,11 @@ class AnswersResource(Resource):
         question_to_answer = Question.get_by_id(id)
         if question_to_answer == None:
             return {'message': 'The question with that id was not found'}, 404
-        answer = Answer(body=request.json['body'], question_id=id)
-        saved_answer = answer.save()
-        return {"message": "The answer was posted successfully", "data": saved_answer}, 201
+        answer = Answer.save(self,body=request.json['body'], question_id=request.json['question_id'],date_created=datetime.now(),date_modified=datetime.now())
+        # question = Question.save(self, title=request.json['title'], body=request.json['body'],
+        #                          date_created=datetime.now(), date_modi
+        # saved_answer = answer.save()
+        return {"message": "The answer was posted successfully", "data": answer}, 201
 
 
 @ns.route('/questions/<string:id>')
@@ -80,8 +82,8 @@ class QuestionResource(Resource):
 
         question = Question.get_by_id(id)
 
-        if question == None:
-            return {"status": "No question with that id"}, 404
+        # if question == None:
+        #     return {"status": "No question with that id"}, 404
 
         return {"message": "Success", "data": question}, 200
 
