@@ -1,0 +1,4 @@
+{
+  "tests/test_answers.py::TestAnswer::test_put_title": true,
+  "tests/test_questions.py::TestQuestion::test_can_put_answer": true
+}
