@@ -11,10 +11,6 @@ This Application is developed using Python datastructures with Flask restplus fr
 
 Please click [gh-pages](https://nduhiu17.github.io/StackOverflow-lite/) to view UI templates hosted on gh-pages
 
-Please click [heroku-link](https://antony-stackoverflow-v1.herokuapp.com) to get and test the non-persistence API end points on postman
-
-Please click [code-on-github](https://github.com/Nduhiu17/StackOverflow-lite-v1/tree/challenge-two) to get challenge two  code on git hub that used python data structures with no database.
-
 #### Features
 - Users can post a question
 - Users can get all questions
@@ -43,6 +39,16 @@ Please click [code-on-github](https://github.com/Nduhiu17/StackOverflow-lite-v1/
 #### Getting Started:
 
 **To start the app, please follow the instructions below:**
+
+***Create test and development databases as shown***
+
+**On your terminal**
+
+  $ psql
+
+  $ CREATE DATABASE stackoverflow_lite;
+
+  $ CREATE DATABASE stackoverflow_lite_test;
 
 **On your terminal:**
 
