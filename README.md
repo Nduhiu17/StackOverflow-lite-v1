@@ -11,7 +11,7 @@ This Application is developed using Python datastructures with Flask restplus fr
 
 Please click [gh-pages](https://nduhiu17.github.io/StackOverflow-lite/) to view my UI pages
 
-Please click [heroku-link](https://antony-stackoverflow-v1.herokuapp.cokm) to get and test persistence API end points on postman
+Please click [heroku-link](https://antony-stackoverflow-v2.herokuapp.com) to get and test persistence API end points on postman
 
 Please click [github-link](https://github.com/Nduhiu17/StackOverflow-lite-v1/tree/challenge-three) to get challenge three code on a github branch that used postgres database to create persistence endpoints.
 
@@ -25,11 +25,10 @@ Please click [github-link](https://github.com/Nduhiu17/StackOverflow-lite-v1/tre
 
 | METHOD | ENDPOINT                                            | DESCRIPTION                         |
 | ------ | ---------------------------------------------       | --------------------------------    |
-| POST   | '/api/v1/users/'                                    | User registration                   |
-| POST   | '/api/v1/user/questions '                           | Create a new question               |
-| POST   | '/api/v1/user/questions/<int:question_id>/answers'  | Create a new answer to a question   |
-| GET    | '/api/v1/user/questions/<int:question_id>'          | Fetch a single question             |
-| GET    | '/api/v1/user/questions'                            | Fetch all questions                 |
+| GET    | /api/v1/questions                                   | Get all questions                   |
+| POST   | /api/v1/questions                                   | Create a new question               |
+| POST   | /api/v1/questions/<int:question_id>/answers         | Create a new answer to a question   |
+| GET    | /api/v1/questions/<int:question_id>                 | Fetch a single question             |
 
 
 #### Prerequisites
