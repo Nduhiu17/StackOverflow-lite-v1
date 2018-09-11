@@ -7,6 +7,7 @@ python:
 env:
   global:
   - SECRET_KEY=hii-inafaa-kua-siri
+  - DATABASE_URL="postgres://nduhiu:password@localhost:5432/stackoverflow_lite_test"
 
 before_script:
   - psql -c 'create database diary_db_test;' -U postgres
