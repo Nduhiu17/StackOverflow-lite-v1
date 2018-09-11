@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime
 
 from app import app
-from app.models import Question, MOCK_DATABASE
+from app.models import Question
 from config import TestingConfig
 
 
@@ -17,12 +17,9 @@ class TestQuestion(unittest.TestCase):
         self.new_question = Question(id=4, title="how to init python",
                                      body="how to init python how to init python how to init python",
                                      date_created=datetime.now(), date_modified=datetime.now())
-        # self.new_question.save()
+
         self.client = self.app.test_client()
         self.app.testing = True
-
-    def tearDown(self):
-        MOCK_DATABASE = dict(questions=[], answers=[], users=[])
 
     def test_init(self):
         # test that a question is initialized
@@ -80,6 +77,11 @@ class TestQuestion(unittest.TestCase):
         response = self.client.get(f'api/v1/questions/{1}', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
+
+    def test_get_non_existing_question(self):
+        response = self.client.get(f'api/v1/questions/145678', content_type='application/json')
+        result = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 404)
 
     def test_get_all_questions(self):
         # test can get all questions
