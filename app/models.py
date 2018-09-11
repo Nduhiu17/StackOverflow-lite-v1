@@ -1,8 +1,10 @@
 from datetime import datetime
 
-from app.database import connect_to_db
+from app.database import connect_to_db, create_answers_table, create_questions_table
 
 cursor = connect_to_db()
+create_answers_table()
+create_questions_table
 
 
 class Question:
