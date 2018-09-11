@@ -113,13 +113,13 @@ class Answer:
                 answers_retrieved_dict.append(answer_question.json_dumps())
         return answers_retrieved_dict
 
-    # def json_dumps(self):
-    #     # method to return a json object from the answer details
-    #     ans = {
-    #         "id": self.id,
-    #         "body": self.body,
-    #         "question_id": self.question_id,
-    #         "date_created": str(self.date_created),
-    #         "date_modified": str(self.date_modified)
-    #     }
-    #     return ans
+    def json_dumps(self):
+        # method to return a json object from the answer details
+        ans = {
+            "id": self.id,
+            "body": self.body,
+            "question_id": self.question_id,
+            "date_created": str(self.date_created),
+            "date_modified": str(self.date_modified)
+        }
+        return ans
