@@ -25,12 +25,12 @@ Please click [code-on-github](https://github.com/Nduhiu17/StackOverflow-lite-v1/
 
 | METHOD | ENDPOINT                                            | DESCRIPTION                         |
 | ------ | ---------------------------------------------       | --------------------------------    |
-| POST   | '/api/v1/users/'                                    | User registration                   |
-| POST   | '/api/v1/user/questions '                           | Create a new question               |
-| POST   | '/api/v1/user/questions/<int:question_id>/answers'  | Create a new answer to a question   |
-| GET    | '/api/v1/user/questions/<int:question_id>'          | Fetch a single question             |
-| GET    | '/api/v1/user/questions'                            | Fetch all questions                 |
-| GET    | '/api/v1/user/users'                                | Fetch all users - Admin             |
+| POST   | /api/v1/questions                                   | Create a new question               |
+| GET    | /api/v1/questions                                   | Get all questions                   |
+| GET    | /api/v1/questions/<int:question_id>                 | Get a signle question with answers  |
+| POST   | /api/v1/questions/<int:question_id>/answers         | Create a new answer to a question   |
+| POST   | /api/v1/users                                       | Post a user                         |
+| GET    |/api/v1/users                                        | Fetch all users - Admin             |
 
 #### Prerequisites
 - [Python3](https://www.python.org/) (A programming language)
