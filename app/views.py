@@ -10,7 +10,7 @@ from app.models import Question, Answer
 
 cursor = connect_to_db()
 create_answers_table()
-create_questions_table
+create_questions_table()
 
 api_v1.namespaces.clear()
 ns = api_v1.namespace('api/v1', description='End points for the api')
