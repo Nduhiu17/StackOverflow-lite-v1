@@ -12,8 +12,10 @@ class TestAnswer(unittest.TestCase):
     '''class to test an answer'''
 
     def tearDown(self):
-        drop_questions_table
+        drop_questions_table()
         drop_answers_table()
+        create_questions_table()
+        create_answers_table()
 
     def setUp(self):
         # setting up configurations for testing
