@@ -1,28 +1,38 @@
 import json
 import unittest
-from app import app, seeding
-from app.models import Question, MOCK_DATABASE
+from datetime import datetime
+
+from app import app
+from app.database import drop_questions_table, drop_answers_table, create_questions_table, create_answers_table
+from app.models import Question
 from config import TestingConfig
 
 
 class TestQuestion(unittest.TestCase):
     '''class to test a question'''
 
+    def tearDown(self):
+        drop_questions_table
+        drop_answers_table()
+
     def setUp(self):
         # setting up configurations for testing
+        create_questions_table()
+        create_answers_table()
         self.app = app
         self.app.config.from_object(TestingConfig)
+        self.new_question = Question(id=4, title="how to init python",
+                                     body="how to init python how to init python how to init python",
+                                     date_created=datetime.now(), date_modified=datetime.now())
+
         self.client = self.app.test_client()
         self.app.testing = True
-        seeding()
-
-    def tearDown(self):
-        MOCK_DATABASE = dict(questions=[], answers=[], users=[])
 
     def test_init(self):
         # test that a question is initialized
-        self.new_question = Question(title="how to init python",
-                                     body="how to init python how to init python how to init python")
+        self.new_question = Question(id=4, title="how to init python",
+                                     body="how to init python how to init python how to init python",
+                                     date_created=datetime.now(), date_modified=datetime.now())
         self.assertTrue(type(self.new_question.id), int)
         self.assertEqual(type(self.new_question), Question)
 
@@ -71,15 +81,12 @@ class TestQuestion(unittest.TestCase):
 
     def test_get_a_single_question(self):
         # method to get a single question
-
-        question = MOCK_DATABASE['questions'][0]
-        response = self.client.get(f'api/v1/questions/{question.id}', content_type='application/json')
+        response = self.client.get(f'api/v1/questions/{1}', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
 
     def test_get_non_existing_question(self):
-        # question = MOCK_DATABASE['questions'][0]
-        response = self.client.get(f'api/v1/questions/gggggg-ggggggggg-gggggggg', content_type='application/json')
+        response = self.client.get(f'api/v1/questions/145678', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 404)
 
