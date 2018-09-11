@@ -46,7 +46,7 @@ def create_answers_table():
 def drop_questions_table():
     cursor = connect_to_db()
     sql_command = """ 
-    DROP TABLE questions;
+    DROP TABLE questions CASCADE;
     """
     cursor.execute(sql_command)
 
@@ -55,6 +55,6 @@ def drop_questions_table():
 def drop_answers_table():
     cursor = connect_to_db()
     sql_command = """ 
-    DROP TABLE answers;
+    DROP TABLE answers CASCADE;
     """
     cursor.execute(sql_command)
