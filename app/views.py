@@ -5,7 +5,12 @@ from flask_restplus import Resource, reqparse, fields
 from flask import request
 
 from app import api_v1, api_home
+from app.database import connect_to_db, create_answers_table, create_questions_table
 from app.models import Question, Answer
+
+cursor = connect_to_db()
+create_answers_table()
+create_questions_table
 
 api_v1.namespaces.clear()
 ns = api_v1.namespace('api/v1', description='End points for the api')
