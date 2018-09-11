@@ -3,6 +3,7 @@ import unittest
 from datetime import datetime
 
 from app import app
+from app.database import drop_questions_table, drop_answers_table, create_questions_table, create_answers_table
 from app.models import Question
 from config import TestingConfig
 
@@ -10,8 +11,14 @@ from config import TestingConfig
 class TestQuestion(unittest.TestCase):
     '''class to test a question'''
 
+    def tearDown(self):
+        drop_questions_table
+        drop_answers_table()
+
     def setUp(self):
         # setting up configurations for testing
+        create_questions_table()
+        create_answers_table()
         self.app = app
         self.app.config.from_object(TestingConfig)
         self.new_question = Question(id=4, title="how to init python",
