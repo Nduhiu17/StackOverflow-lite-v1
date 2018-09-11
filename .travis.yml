@@ -4,13 +4,18 @@ language: python
 python:
   - "3.6"
 
+services:
+  - postgresql
+
+
 env:
   global:
   - SECRET_KEY=hii-inafaa-kua-siri
-  - DATABASE_URL="postgres://nduhiu:password@localhost:5432/stackoverflow_lite_test"
+  - DATABASE_URL="postgres://testuser:password@localhost:5432/stackoverflow_lite_test"
 
 before_script:
-  - psql -c 'create database diary_db_test;' -U postgres
+  - psql -c 'create database stackoverflow_lite_test;' -U postgres
+  - psql -c 'create user testuser with PASSWORD password;' -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
@@ -23,6 +28,7 @@ install:
 
 # command to run tests
 script:
+
   - pytest --cov-report term-missing --cov=app
 
 #code to run after tests
