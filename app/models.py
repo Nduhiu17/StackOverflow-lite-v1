@@ -123,3 +123,31 @@ class Answer:
             "date_modified": str(self.date_modified)
         }
         return ans
+
+
+class User:
+    '''Class to model a user'''
+
+    def __init__(self, id, username, email, password, date_created, date_modified):
+        # method to initialize User class
+        self.id = id
+        self.username = username
+        self.email = email
+        self.password = password
+        self.date_created = date_created
+        self.date_modified = date_modified
+
+    def save(self, username, email, password, date_created, date_modified):
+        # method to save a user
+        format_str = f"""
+                 INSERT INTO public.users (username,email,password,date_created,date_modified)
+                 VALUES ('{username}',{email},{password},'{str(datetime.now())}','{str(datetime.now())}');
+                 """
+        cursor.execute(format_str)
+        return {
+            "username": username,
+            "email": email,
+            "password": password,
+            "date_created": str(date_created),
+            "date_modified": str(date_modified)
+        }
