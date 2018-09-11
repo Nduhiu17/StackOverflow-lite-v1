@@ -15,6 +15,7 @@ app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 blueprint = Blueprint('api', __name__)
 blueprint_2 = Blueprint('home', __name__)
+blueprint_3 = Blueprint('auth', __name__)
 
 api_v1 = Api(blueprint,
              title='StackOverflow - Lite',

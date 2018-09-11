@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from passlib.handlers.pbkdf2 import pbkdf2_sha256
+
 from app.database import connect_to_db, create_answers_table, create_questions_table
 
 cursor = connect_to_db()
@@ -128,7 +130,7 @@ class Answer:
 class User:
     '''Class to model a user'''
 
-    def __init__(self, id, username, email, password, date_created, date_modified):
+    def __init__(self, username, email, password, date_created, date_modified):
         # method to initialize User class
         self.id = id
         self.username = username
@@ -141,13 +143,50 @@ class User:
         # method to save a user
         format_str = f"""
                  INSERT INTO public.users (username,email,password,date_created,date_modified)
-                 VALUES ('{username}',{email},{password},'{str(datetime.now())}','{str(datetime.now())}');
+                 VALUES ('{username}','{email}','{password}','{str(datetime.now())}','{str(datetime.now())}');
                  """
         cursor.execute(format_str)
         return {
             "username": username,
             "email": email,
-            "password": password,
             "date_created": str(date_created),
             "date_modified": str(date_modified)
         }
+
+    @classmethod
+    # This method gets a user using email
+    def find_by_email(cls, email):
+        try:
+            cursor.execute("select * from users where email = %s", (email,))
+            user = cursor.fetchone()
+            return list(user)
+        except Exception as e:
+            return False
+
+    @classmethod
+    def find_by_username(cls, username):
+        try:
+            cursor.execute("select * from users where username = %s", (username,))
+            user = cursor.fetchone()
+            return list(user)
+        except Exception as e:
+            return False
+
+    @classmethod
+    def find_by_id(cls, id):
+        try:
+            cursor.execute("select * from users where id = %s", (id,))
+            user = cursor.fetchone()
+            return list(user)
+        except Exception as e:
+            return False
+
+    @staticmethod
+    def generate_hash(password):
+        #method that returns a hash
+        return pbkdf2_sha256.hash(password)
+
+    @staticmethod
+    def verify_hash(password, hash):
+        #method to verify password with the hash
+        return pbkdf2_sha256.verify(password, hash)
