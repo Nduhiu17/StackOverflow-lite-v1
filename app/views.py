@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 from flask_restplus import Resource, reqparse, fields
 from flask import request
 
@@ -32,11 +32,13 @@ class QuestionsResource(Resource):
     '''Questions class resource'''
 
     @ns.expect(resource_fields)
+    @jwt_required
     def post(self):
         # method that post a question resource
         parser = reqparse.RequestParser()
         parser.add_argument('title', help='The title field cannot be blank', required=True, type=str)
         parser.add_argument('body', help='The body field cannot be blank', required=True, type=str)
+        parser.add_argument('user_id', help='The body field cannot be blank', required=True, type=int)
         data = parser.parse_args()
         json_data = request.get_json(force=True)
         if re.match("^[1-9]\d*(\.\d+)?$", data['title']):
@@ -45,7 +47,7 @@ class QuestionsResource(Resource):
             return {'message': 'The length of both title should be atleast 10 characters'}, 400
         if len(data['body']) < 20:
             return {'message': 'The length of both body should be atleast 15 characters'}, 400
-        question = Question.save(self, title=request.json['title'], body=request.json['body'],
+        question = Question.save(self, title=request.json['title'], body=request.json['body'],user_id=request.json['user_id'],
                                  date_created=datetime.now(), date_modified=datetime.now())
         return {"message": "The question posted successfully", "data": question}, 201
 
