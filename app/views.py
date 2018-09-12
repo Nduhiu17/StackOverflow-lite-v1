@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 
+from flask_jwt_extended import create_access_token
 from flask_restplus import Resource, reqparse, fields
 from flask import request
 
@@ -117,12 +118,12 @@ class RegisterResource(Resource):
         if Validate.validate_username_format(data['username']):
             return {'message': 'Invalid username'}, 400
         if not Validate.validate_length_username(data['username']):
-            return {'message': 'The length of username should be atleast 6 characters'}, 400
+            return {'message': 'The length of username should be atleast 4 characters'}, 400
         if not Validate.validate_password_length(data['password']):
             return {'message':'the length of the password should be atleast 6 characters'},400
         if re.match("^[1-9]\d*(\.\d+)?$", data['password']):
             return {'message': 'the username and password should be of type string'}, 400
-        if not Validate.validate_email(data['email']):
+        if not Validate.validate_email_format(data['email']):
             return {'message': 'Invalid email.The email should be of type "example@mail.com"'}, 400
         if User.find_by_username(data['username']):
             return {'message': 'This username is already taken'}, 409
@@ -133,3 +134,31 @@ class RegisterResource(Resource):
                     password=User.generate_hash(request.json['password']),date_created=datetime.now(),
                              date_modified=datetime.now())
         return {"message": "The user saved successfully", "data": user}, 201
+
+
+n_user = api_v1.model('Login', {
+    'username': fields.String,
+    'password': fields.String
+})
+@ns1.route('/login')
+class LoginResource(Resource):
+
+    # Method that logs in a user and creates for him a security token
+    @api_v1.expect(n_user)
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', help='This3 field cannot be blank', required=True)
+        parser.add_argument('username', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        current_user = User.find_by_username(data['username'])
+        if current_user == False:
+            return {'message': 'User {} doesnt exist'.format(data['username'])},404
+
+        if User.verify_hash(data['password'], current_user[3]):
+            access_token = create_access_token(data['username'])
+            return {
+                'message': 'Logged in as {}'.format(current_user[1]),
+                'access_token': access_token,
+            },200
+        else:
+            return {'message': 'Wrong credentials'},403

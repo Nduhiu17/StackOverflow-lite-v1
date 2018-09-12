@@ -81,7 +81,9 @@ class TestQuestion(unittest.TestCase):
 
     def test_get_a_single_question(self):
         # method to get a single question
-        new_question = Question(id=1,title='sdfghjklzxcvbnlxcvbnmxcvbnmxcvbn',body="sdfghjklsdfghjklsdfghjklsdfghiosdfghjklsdfghjk",date_created=datetime.utcnow(),date_modified=datetime.utcnow())
+        new_question = Question(id=1, title='sdfghjklzxcvbnlxcvbnmxcvbnmxcvbn',
+                                body="sdfghjklsdfghjklsdfghjklsdfghiosdfghjklsdfghjk", date_created=datetime.utcnow(),
+                                date_modified=datetime.utcnow())
         new_question.save(self, 'title', 'body', 'date_created', 'date_modified')
         response = self.client.get(f'api/v1/questions/{1}', content_type='application/json')
         result = json.loads(response.data.decode())
@@ -96,3 +98,4 @@ class TestQuestion(unittest.TestCase):
         # test can get all questions
         response = self.client.get('/api/v1/questions', content_type='application/json')
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(type(response), list)

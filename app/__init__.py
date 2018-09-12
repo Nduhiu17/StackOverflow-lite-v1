@@ -2,6 +2,7 @@ from flask import Flask, jsonify, Blueprint
 from flask_restplus import Api
 
 from config import DevelopmentConfig
+from flask_jwt_extended import JWTManager
 
 authorization = {
     'apiKey': {
@@ -11,7 +12,9 @@ authorization = {
     }
 }
 
+
 app = Flask(__name__)
+jwt = JWTManager(app)
 app.config.from_object(DevelopmentConfig)
 blueprint = Blueprint('api', __name__)
 blueprint_2 = Blueprint('home', __name__)
