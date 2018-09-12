@@ -41,6 +41,20 @@ def create_answers_table():
                 )"""
     cursor.execute(sql_command)
 
+# function to create questions table
+def create_users_table():
+    cursor = connect_to_db()
+    sql_command = """CREATE TABLE IF NOT EXISTS "public"."users"  (
+    id SERIAL ,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    date_created VARCHAR(80),
+    date_modified VARCHAR(80),
+    PRIMARY KEY (id)
+        )"""
+    cursor.execute(sql_command)
+
 
 # function to drop questions table
 def drop_questions_table():
@@ -58,3 +72,12 @@ def drop_answers_table():
     DROP TABLE answers CASCADE;
     """
     cursor.execute(sql_command)
+
+# function to drop answers table
+def drop_users_table():
+    cursor = connect_to_db()
+    sql_command = """ 
+    DROP TABLE users CASCADE;
+    """
+    cursor.execute(sql_command)
+
