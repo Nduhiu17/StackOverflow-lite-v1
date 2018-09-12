@@ -5,7 +5,7 @@ from flask_jwt_extended import get_jwt_identity, create_access_token
 from passlib.handlers.pbkdf2 import pbkdf2_sha256
 
 from app import jwt
-from app.database import connect_to_db, create_answers_table, create_questions_table
+from app.database import connect_to_db
 
 cursor = connect_to_db()
 
@@ -61,8 +61,9 @@ class Question:
             "id": row[0],
             "title": row[1],
             "body": row[2],
-            "date_created": row[3],
-            "date_modified": row[4],
+            "user_id": row[3],
+            "date_created": row[4],
+            "date_modified": row[5]
         }
         retrieved_question = question
         answers = Answer.get_all_question_answers(question_id=id)
