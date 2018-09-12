@@ -26,9 +26,8 @@ class TestQuestion(unittest.TestCase):
         self.app = app
         self.app.config.from_object(TestingConfig)
         self.new_question = Question(id=4, title="how to init python",
-                                     body="how to init python how to init python how to init python",user_id=1,
+                                     body="how to init python how to init python how to init python", user_id=1,
                                      date_created=datetime.now(), date_modified=datetime.now())
-        # self.new_question = post_quiz(self)
         self.client = self.app.test_client()
         self.app.testing = True
         register_user(self)
@@ -38,7 +37,7 @@ class TestQuestion(unittest.TestCase):
     def test_init(self):
         # test that a question is initialized
         self.new_question = Question(id=4, title="how to init python",
-                                     body="how to init python how to init python how to init python",user_id=1,
+                                     body="how to init python how to init python how to init python", user_id=1,
                                      date_created=datetime.now(), date_modified=datetime.now())
         self.assertTrue(type(self.new_question.id), int)
         self.assertEqual(type(self.new_question), Question)

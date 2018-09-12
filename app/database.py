@@ -36,13 +36,17 @@ def create_answers_table():
             id SERIAL ,
             body VARCHAR(400) NOT NULL,
             question_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
             date_created VARCHAR(80),
             date_modified VARCHAR(80),
             PRIMARY KEY (id),
             FOREIGN KEY (question_id)
-            REFERENCES questions (id)
+            REFERENCES questions (id),
+            FOREIGN KEY (user_id)
+            REFERENCES users (id)
                 )"""
     cursor.execute(sql_command)
+
 
 # function to create questions table
 def create_users_table():
@@ -76,6 +80,7 @@ def drop_answers_table():
     """
     cursor.execute(sql_command)
 
+
 # function to drop answers table
 def drop_users_table():
     cursor = connect_to_db()
@@ -83,4 +88,3 @@ def drop_users_table():
     DROP TABLE users CASCADE;
     """
     cursor.execute(sql_command)
-
