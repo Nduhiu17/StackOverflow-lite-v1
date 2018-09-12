@@ -3,9 +3,11 @@ import unittest
 from datetime import datetime
 
 from app import app
-from app.database import create_questions_table, create_answers_table, drop_questions_table, drop_answers_table
+from app.database import create_questions_table, create_answers_table, drop_questions_table, drop_answers_table, \
+    create_users_table
 from app.models import Question, Answer
 from config import TestingConfig
+from tests.helper_functions import post_quiz, register_user
 
 
 class TestAnswer(unittest.TestCase):
@@ -14,6 +16,7 @@ class TestAnswer(unittest.TestCase):
     def tearDown(self):
         drop_questions_table()
         drop_answers_table()
+        create_users_table()
         create_questions_table()
         create_answers_table()
 
@@ -23,10 +26,9 @@ class TestAnswer(unittest.TestCase):
         create_answers_table()
         self.app = app
         self.app.config.from_object(TestingConfig)
-        self.new_question = Question(id=4, title="how to init python",
-                                     body="how to init python how to init python how to init python",
-                                     date_created=datetime.now(), date_modified=datetime.now())
-        self.new_question.save('self', 'title', 'body', 'date_created', 'date_modified')
+        self.client = self.app.test_client()
+        register_user(self)
+        post_quiz(self)
         self.client = self.app.test_client()
         self.app.testing = True
 
