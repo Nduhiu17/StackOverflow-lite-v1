@@ -19,9 +19,12 @@ def create_questions_table():
     id SERIAL ,
     title VARCHAR(255) NOT NULL,
     body TEXT NOT NULL,
+    user_id INTEGER NOT NULL,
     date_created VARCHAR(80),
     date_modified VARCHAR(80),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id)
+    REFERENCES users (id)
         )"""
     cursor.execute(sql_command)
 

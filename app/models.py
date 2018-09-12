@@ -13,11 +13,12 @@ cursor = connect_to_db()
 class Question:
     '''Class to model a question'''
 
-    def __init__(self, id, title, body, date_created, date_modified):
+    def __init__(self, id, title, body,user_id, date_created, date_modified):
         # method to initialize Question class
         self.id = id
         self.title = title
         self.body = body
+        self.user_id =user_id
         self.date_created = date_created
         self.date_modified = date_modified
 
@@ -27,23 +28,25 @@ class Question:
             "id": self.id,
             "title": self.title,
             "body": self.body,
+            "user_id":self.user_id,
             "date_created": str(self.date_created),
             "date_modified": str(self.date_modified)
         }
         return obj
 
     @staticmethod
-    def save(self, title, body, date_created, date_modified):
+    def save(self, title, body, user_id,date_created, date_modified):
         """Method to save an entry"""
         format_str = f"""
-         INSERT INTO public.questions (title,body,date_created,date_modified)
-         VALUES ('{title}','{body}','{str(datetime.now())}','{str(datetime.now())}') ;
+         INSERT INTO public.questions (title,body,user_id,date_created,date_modified)
+         VALUES ('{title}','{body}',{user_id},'{str(datetime.now())}','{str(datetime.now())}') ;
          """
         cursor.execute(format_str)
 
         return {
             "title": title,
             "body": body,
+            "user_id":user_id,
             "date_created": str(date_created),
             "date_modified": str(date_modified)
         }
@@ -75,7 +78,7 @@ class Question:
         list_dict = []
 
         for item in rows:
-            new = Question(id=item[0], title=item[1], body=item[2], date_created=item[3], date_modified=item[4])
+            new = Question(id=item[0], title=item[1], body=item[2], user_id=item[3],date_created=item[3], date_modified=item[4])
             list_dict.append(new.json_dumps())
         return list_dict
 
