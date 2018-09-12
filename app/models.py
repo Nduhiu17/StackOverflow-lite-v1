@@ -1,7 +1,10 @@
-from datetime import datetime
+from datetime import datetime,timedelta
 
+from flask import jsonify, current_app
+from flask_jwt_extended import get_jwt_identity, create_access_token
 from passlib.handlers.pbkdf2 import pbkdf2_sha256
 
+from app import jwt
 from app.database import connect_to_db, create_answers_table, create_questions_table
 
 cursor = connect_to_db()
@@ -190,3 +193,31 @@ class User:
     def verify_hash(password, hash):
         #method to verify password with the hash
         return pbkdf2_sha256.verify(password, hash)
+
+
+    @staticmethod
+    #method to generate token from username
+    def create_token():
+        username = get_jwt_identity()
+        expires = datetime.timedelta(days=1)
+        token = create_access_token(username, expires_delta=expires)
+        return jsonify({'token': token}), 201
+
+    @staticmethod
+    def decode_token(token):
+        #decoding the token
+        payload = jwt.decode(token, str(
+            current_app.config.environ('SECRET_KEY')), algorithms=['HS256'])
+        return payload
+
+    def json_dumps(self):
+        # method to return a json object from a user
+        ans = {
+            "id": self.id,
+            "body": self.username,
+            "email": self.email,
+            "password": self.password,
+            "date_created": str(self.date_created),
+            "date_modified": str(self.date_modified)
+        }
+        return ans

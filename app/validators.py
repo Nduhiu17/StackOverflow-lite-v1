@@ -14,7 +14,7 @@ class Validate:
     @staticmethod
     def validate_length_username(username):
         #checking the username length no be not less than 6 characters
-        if len(username) < 6:
+        if len(username) < 4:
             return False
         return True
 
@@ -26,20 +26,11 @@ class Validate:
         return True
 
     @staticmethod
-    def validate_email(email):
+    def validate_email_format(email):
         #checks correct email format
         regex = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
         if re.match(regex, email, re.IGNORECASE):
             return True
         else:
-            return False
-
-    @staticmethod
-    def validate_int(value):
-        #check whether the value supplied is an integer
-        try:
-            int(value)
-            return True
-        except ValueError:
             return False
 
