@@ -24,7 +24,9 @@ api_v1 = Api(blueprint,
              title='StackOverflow - Lite',
              version='1',
              description='An api to create a question, create an answer to a question ,get all questions and get a single '
-                         'question with its answers',
+                         'question with its answers.To test the end points here,register and login with your '
+                         'registered username and password.Hit the authorize button and then, Provide token to the '
+                         'secured endpoints.e.g `Bearer yourtoken`<br>Click on models to view samples of data input',
              authorizations=authorization,
              )
 
@@ -40,13 +42,7 @@ api_home = Api(blueprint_2,
 
 app.register_blueprint(blueprint)
 
-# @jwt.invalid_token_loader
-# def error_d404(e):
-#     return jsonify({"message": "Sorry!!!The page you were looking for was not found.Kindly countercheck the url"}), 404
-#
-# @app.errorhandler(jwt_extended_exception.InvalidHeaderError)
-# def handle_invalid_header_error(e):
-#     return {'message': str(e)}, 422
+
 
 jwt._set_error_handler_callbacks(api_v1)
 @app.errorhandler(404)
