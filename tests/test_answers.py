@@ -7,7 +7,7 @@ from app.database import create_questions_table, create_answers_table, drop_ques
     create_users_table
 from app.models import Question, Answer
 from config import TestingConfig
-from tests.helper_functions import post_quiz, register_user
+from tests.helper_functions import post_quiz, register_user, login_user, post_answer
 
 
 class TestAnswer(unittest.TestCase):
@@ -34,24 +34,28 @@ class TestAnswer(unittest.TestCase):
 
     def test_answer_posted(self):
         # test that an answer can be posted
-        new_answer = {'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit volupta',
-                      'question_id': '1'}
-        response = self.client.post(f'/api/v1/questions/{1}/anwsers', data=json.dumps(new_answer),
-                                    headers={'Content-Type': 'application' '/json'})
+        response = login_user(self)
+        result = json.loads(response.data)
+        self.assertIn("access_token", result)
+        new_answer = {'body': 'errossssssssssssssssssssssssssssssssssssssssssssssssss'}
+        response = self.client.post('/api/v1/questions/1/anwsers', data=json.dumps(new_answer),
+                                    headers={'Authorization': f'Bearer {result["access_token"]}',
+                                             'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 201)
 
     def test_post_short_answer_body(self):
-        # test cant post invalid short answer
-        new_answer = {'body': 'short body'}
-        response = self.client.post(f'/api/v1/questions/{1}/anwsers', data=json.dumps(new_answer),
-                                    headers={'Content-Type': 'application' '/json'})
+        # test cant post invalid short answe
+        response = login_user(self)
+        result = json.loads(response.data)
+        self.assertIn("access_token", result)
+        new_answer = {'body': 'erro'}
+        response = self.client.post('/api/v1/questions/2/anwsers', data=json.dumps(new_answer),
+                                    headers={'Authorization': f'Bearer {result["access_token"]}',
+                                             'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 400)
 
     def test_cant_post_to_no_question(self):
-        # test can't post an answer to no question
-        new_answer = {'body': 'error sit voluptatem accusantium doloremque laudantiumerror sit volupta'}
-        response = self.client.post('/api/v1/questions/1254/anwsers', data=json.dumps(new_answer),
-                                    headers={'Content-Type': 'application' '/json'})
+        response = post_answer(self)
         self.assertEqual(response.status_code, 404)
 
     def test_init(self):
