@@ -37,7 +37,7 @@ class TestAnswer(unittest.TestCase):
         response = login_user(self)
         result = json.loads(response.data)
         self.assertIn("access_token", result)
-        new_answer = {'body': 'errossssssssssssssssssssssssssssssssssssssssssssssssss'}
+        new_answer = {'body': 'errossssssssssssssssssssssssssssssssssssssssssssssssss','accept':False}
         response = self.client.post('/api/v1/questions/1/anwsers', data=json.dumps(new_answer),
                                     headers={'Authorization': f'Bearer {result["access_token"]}',
                                              'Content-Type': 'application' '/json'})
