@@ -46,7 +46,7 @@ class TestAnswer(unittest.TestCase):
         result = json.loads(response.data)
         self.assertIn("access_token", result)
         new_answer = {'body': 'errossssssssssssssssssssssssssssssssssssssssssssssssss','accept':False}
-        response = self.client.post('/api/v1/questions/1/anwsers', data=json.dumps(new_answer),
+        response = self.client.post('/api/v1/questions/1/answers', data=json.dumps(new_answer),
                                     headers={'Authorization': f'Bearer {result["access_token"]}',
                                              'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 201)
@@ -57,7 +57,7 @@ class TestAnswer(unittest.TestCase):
         result = json.loads(response.data)
         self.assertIn("access_token", result)
         new_answer = {'body': 'erro'}
-        response = self.client.post('/api/v1/questions/2/anwsers', data=json.dumps(new_answer),
+        response = self.client.post('/api/v1/questions/2/answers', data=json.dumps(new_answer),
                                     headers={'Authorization': f'Bearer {result["access_token"]}',
                                              'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 400)
