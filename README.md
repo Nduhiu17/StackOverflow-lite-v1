@@ -1,6 +1,8 @@
 ### StackOverflow - Lite
+
 [![Build Status](https://travis-ci.org/Nduhiu17/StackOverflow-lite-v1.svg?branch=challenge-three)](https://travis-ci.org/Nduhiu17/StackOverflow-lite-v1)
 [![Coverage Status](https://coveralls.io/repos/github/Nduhiu17/StackOverflow-lite-v1/badge.svg?branch=challenge-three)](https://coveralls.io/github/Nduhiu17/StackOverflow-lite-v1?branch=challenge-three)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/f1dae9885bc88e9accb7/maintainability)](https://codeclimate.com/github/Nduhiu17/StackOverflow-lite-v1/maintainability)
 
 #### Description
@@ -9,11 +11,12 @@ StackOverflow-lite is a platform where users can ask questions and post answers 
 #### Development
 This Application is developed using Python datastructures with Flask restplus framework 
 
-Please click [gh-pages](https://nduhiu17.github.io/StackOverflow-lite/) to view my UI pages
+Please click [gh-pages](https://nduhiu17.github.io/StackOverflow-lite/) to view UI templates hosted on gh-pages
 
 Please click [heroku-link](https://antony-stackoverflow-v2.herokuapp.com) to get and test persistence API end points on postman
 
 Please click [github-link](https://github.com/Nduhiu17/StackOverflow-lite-v1/tree/challenge-three) to get challenge three code on a github branch that used postgres database to create persistence endpoints.
+
 
 #### Features
 - Users can post a question
@@ -25,6 +28,7 @@ Please click [github-link](https://github.com/Nduhiu17/StackOverflow-lite-v1/tre
 
 | METHOD | ENDPOINT                                            | DESCRIPTION                         |
 | ------ | ---------------------------------------------       | --------------------------------    |
+
 | GET    | /api/v1/questions                                   | Get all questions                   |
 | POST   | /api/v1/questions                                   | Create a new question               |
 | POST   | /api/v1/questions/<int:question_id>/answers         | Create a new answer to a question   |
