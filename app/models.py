@@ -82,7 +82,13 @@ class Question:
                            date_modified=item[4])
             list_dict.append(new.json_dumps())
         return list_dict
-
+    @classmethod
+    def delete_question(cls, id):
+        try:
+            cursor.execute('DELETE FROM public.questions WHERE id = %s', (id,))
+            return "successfully deleted"
+        except:
+            return "failed"
 
 class Answer:
     '''Class to model an answer'''
