@@ -103,6 +103,19 @@ class QuestionResource(Resource):
 
         return {"message": "Success", "data": question}, 200
 
+    @ns.doc(security='apiKey')
+    @jwt_required
+    def delete(self, id):
+        #resource to delete a question
+        question_to_delete = Question.get_by_id(id)
+        logged_in_user = get_jwt_identity()
+        if question_to_delete:
+            if question_to_delete['user_id'] == logged_in_user:
+                question_to_delete = Question.delete_question(id)
+                return {"message": "Successfully deleted"}, 200
+            return {"message": "You are not authorized to delete this question"}, 401
+        return {"message": "No question found"}, 404
+
 
 new_user = api_v1.model('Register', {
     'username': fields.String,
@@ -178,6 +191,7 @@ class LoginResource(Resource):
 @ns4.route('/questions/<string:id>/anwsers/<answer_id>')
 class AnswerResource(Resource):
     """Class resource to update an answer"""
+
     @api_v1.expect(new_answer)
     @ns.doc(security='apiKey')
     @jwt_required
@@ -196,8 +210,8 @@ class AnswerResource(Resource):
                                                      user_id=get_jwt_identity(), accept=False)
                     return {"message": "You have successfully updated the answer", "data": answer_to_update}, 201
                 elif question['user_id'] == logged_in_user:
-                    print("hey",question['user_id'])
-                    answer_to_update=Answer.accept(id=answer_id)
+                    print("hey", question['user_id'])
+                    answer_to_update = Answer.accept(id=answer_id)
                     return {"message": "You have successfully accepted the answer"}, 201
                 else:
                     return {"message": "You are not authorized to modify the answer"}, 401
