@@ -48,6 +48,7 @@ class TestQuestion(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
 
     def test__post_invalid_title(self):
+        # test cant post a  invalid title
         response = login_user(self)
         result = json.loads(response.data)
         self.assertIn("access_token", result)
@@ -59,6 +60,7 @@ class TestQuestion(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test__post_invalid_title_(self):
+        # test cant post a  invalid title
         response = login_user(self)
         result = json.loads(response.data)
         self.assertIn("access_token", result)
@@ -70,6 +72,7 @@ class TestQuestion(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test__post_invalid_title_int(self):
+        #test cant post a  invalid title
         response = login_user(self)
         result = json.loads(response.data)
         self.assertIn("access_token", result)
@@ -81,6 +84,7 @@ class TestQuestion(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_post_invalid_body(self):
+        #test cant post a question with an invalid body
         response = login_user(self)
         result = json.loads(response.data)
         self.assertIn("access_token", result)
@@ -92,12 +96,14 @@ class TestQuestion(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_get_a_single_question(self):
+        #test can get a single question
         post_quiz(self)
         response = self.client.get(f'api/v1/questions/1', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
 
     def test_get_non_existing_question(self):
+        #test can get a none existing question
         response = self.client.get(f'api/v1/questions/145678', content_type='application/json')
         result = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 404)
