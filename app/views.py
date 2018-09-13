@@ -64,7 +64,7 @@ new_answer = api_v1.model('Answer', {
 })
 
 
-@ns3.route('/questions/<string:id>/anwsers')
+@ns3.route('/questions/<string:id>/answers')
 class AnswersResource(Resource):
     '''Answers class resource'''
 
@@ -188,7 +188,7 @@ class LoginResource(Resource):
             return {'message': 'Wrong credentials'}, 403
 
 
-@ns4.route('/questions/<string:id>/anwsers/<answer_id>')
+@ns4.route('/questions/<string:id>/answers/<answer_id>')
 class AnswerResource(Resource):
     """Class resource to update an answer"""
 
@@ -196,9 +196,6 @@ class AnswerResource(Resource):
     @ns.doc(security='apiKey')
     @jwt_required
     def put(self, id, answer_id):
-        # parser = reqparse.RequestParser()
-        # parser.add_argument('body', help='The body field cannot be blank', required=True, type=str)
-        # data = parser.parse_args()
         question = Question.get_by_id(id=id)
         logged_in_user = get_jwt_identity()
         answer_to_update = Answer.get_by_id(answer_id)
@@ -206,10 +203,13 @@ class AnswerResource(Resource):
         if question:
             if answer_to_update:
                 if answer_to_update['user_id'] == logged_in_user:
+                    parser = reqparse.RequestParser()
+                    parser.add_argument('body', help='The body field cannot be blank', required=True, type=str)
+                    data = parser.parse_args()
                     answer_to_update = Answer.update(id=answer_id, body=request.json['body'],
                                                      user_id=get_jwt_identity(), accept=False)
                     return {"message": "You have successfully updated the answer", "data": answer_to_update}, 201
-                elif question['user_id'] == logged_in_user:
+                elif question['user_id'] == logged_in_user and answer_to_update['question_id'] == question["id"]:
                     print("hey", question['user_id'])
                     answer_to_update = Answer.accept(id=answer_id)
                     return {"message": "You have successfully accepted the answer"}, 201
