@@ -1,6 +1,8 @@
 ### StackOverflow - Lite
-[![Build Status](https://travis-ci.org/Nduhiu17/StackOverflow-lite-v1.svg?branch=develop)](https://travis-ci.org/Nduhiu17/StackOverflow-lite-v1)
-[![Coverage Status](https://coveralls.io/repos/github/Nduhiu17/StackOverflow-lite-v1/badge.svg?branch=develop)](https://coveralls.io/github/Nduhiu17/StackOverflow-lite-v1?branch=develop)
+
+[![Build Status](https://travis-ci.org/Nduhiu17/StackOverflow-lite-v1.svg?branch=challenge-three)](https://travis-ci.org/Nduhiu17/StackOverflow-lite-v1)
+[![Coverage Status](https://coveralls.io/repos/github/Nduhiu17/StackOverflow-lite-v1/badge.svg?branch=challenge-three)](https://coveralls.io/github/Nduhiu17/StackOverflow-lite-v1?branch=challenge-three)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/f1dae9885bc88e9accb7/maintainability)](https://codeclimate.com/github/Nduhiu17/StackOverflow-lite-v1/maintainability)
 
 #### Description
@@ -11,9 +13,10 @@ This Application is developed using Python datastructures with Flask restplus fr
 
 Please click [gh-pages](https://nduhiu17.github.io/StackOverflow-lite/) to view UI templates hosted on gh-pages
 
-Please click [heroku-link](https://antony-stackoverflow-v1.herokuapp.com) to get and test the non-persistence API end points on postman
+Please click [heroku-link](https://antony-stackoverflow-v2.herokuapp.com) to get and test persistence API end points on postman
 
-Please click [code-on-github](https://github.com/Nduhiu17/StackOverflow-lite-v1/tree/challenge-two) to get challenge two  code on git hub that used python data structures with no database.
+Please click [github-link](https://github.com/Nduhiu17/StackOverflow-lite-v1/tree/challenge-three) to get challenge three code on a github branch that used postgres database to create persistence endpoints.
+
 
 #### Features
 - Users can post a question
@@ -25,12 +28,12 @@ Please click [code-on-github](https://github.com/Nduhiu17/StackOverflow-lite-v1/
 
 | METHOD | ENDPOINT                                            | DESCRIPTION                         |
 | ------ | ---------------------------------------------       | --------------------------------    |
-| POST   | /api/v1/questions                                   | Create a new question               |
+
 | GET    | /api/v1/questions                                   | Get all questions                   |
-| GET    | /api/v1/questions/<int:question_id>                 | Get a signle question with answers  |
+| POST   | /api/v1/questions                                   | Create a new question               |
 | POST   | /api/v1/questions/<int:question_id>/answers         | Create a new answer to a question   |
-| POST   | /api/v1/users                                       | Post a user                         |
-| GET    |/api/v1/users                                        | Fetch all users - Admin             |
+| GET    | /api/v1/questions/<int:question_id>                 | Fetch a single question             |
+
 
 #### Prerequisites
 - [Python3](https://www.python.org/) (A programming language)
@@ -43,6 +46,16 @@ Please click [code-on-github](https://github.com/Nduhiu17/StackOverflow-lite-v1/
 #### Getting Started:
 
 **To start the app, please follow the instructions below:**
+
+***Create test and development databases as shown***
+
+**On your terminal**
+
+  $ psql
+
+  $ CREATE DATABASE stackoverflow_lite;
+
+  $ CREATE DATABASE stackoverflow_lite_test;
 
 **On your terminal:**
 

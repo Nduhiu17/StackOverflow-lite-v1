@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, Blueprint
 from flask_restplus import Api
 
-from app.models import Question, User
 from config import DevelopmentConfig
+from flask_jwt_extended import JWTManager
 
 authorization = {
     'apiKey': {
@@ -12,16 +12,21 @@ authorization = {
     }
 }
 
+
 app = Flask(__name__)
+jwt = JWTManager(app)
 app.config.from_object(DevelopmentConfig)
 blueprint = Blueprint('api', __name__)
 blueprint_2 = Blueprint('home', __name__)
+blueprint_3 = Blueprint('auth', __name__)
 
 api_v1 = Api(blueprint,
              title='StackOverflow - Lite',
              version='1',
              description='An api to create a question, create an answer to a question ,get all questions and get a single '
-                         'question with its answers',
+                         'question with its answers.To test the end points here,register and login with your '
+                         'registered username and password.Hit the authorize button and then, Provide token to the '
+                         'secured endpoints.e.g `Bearer yourtoken`<br>Click on models to view samples of data input',
              authorizations=authorization,
              )
 
@@ -38,22 +43,12 @@ api_home = Api(blueprint_2,
 app.register_blueprint(blueprint)
 
 
+
+jwt._set_error_handler_callbacks(api_v1)
 @app.errorhandler(404)
 # This method handles error 404
 def error_404(e):
     return jsonify({"message": "Sorry!!!The page you were looking for was not found.Kindly countercheck the url"}), 404
 
-
-def seeding():
-    # this method seeds question data
-    new_question = Question(title="error sit voluptatem accusantium doloremque laudantium?",
-                            body="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium")
-    new_question.save()
-
-    new_user = User(username="Nduhiumundia", email="antony@gmail.com", password="njksandknpoi20909HHKJ5522765@@")
-    new_user.save_user()
-
-
-seeding()
 
 from . import views
