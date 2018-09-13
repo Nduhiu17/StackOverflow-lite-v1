@@ -22,7 +22,7 @@ class TestQuestion(unittest.TestCase):
         create_answers_table()
 
     def setUp(self):
-        # setting up configurations for testingg
+        # setting up configurations for testing
         self.app = app
         self.app.config.from_object(TestingConfig)
         self.new_question = Question(id=4, title="how to init python",
