@@ -36,9 +36,10 @@ def create_answers_table():
             id SERIAL ,
             body VARCHAR(400) NOT NULL,
             question_id INTEGER NOT NULL,
-            user_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,            
             date_created VARCHAR(80),
             date_modified VARCHAR(80),
+            accept BOOLEAN  default FALSE,
             PRIMARY KEY (id),
             FOREIGN KEY (question_id)
             REFERENCES questions (id),

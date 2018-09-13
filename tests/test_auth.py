@@ -42,27 +42,27 @@ class TestUser(unittest.TestCase):
     def test_register(self):
         # Test can register a user
         new_user = {'username': 'username2', 'email': 'username2@email.com', 'password': 'password'}
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(new_user), content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
     def test_register_username_twice(self):
         # Test can register a username twice
         new_user = {'username': 'username', 'email': 'username@email.com', 'password': 'password'}
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(new_user), content_type='application/json')
         self.assertEqual(response.status_code, 409)
 
     def test_register_email_twice(self):
         # Test can register a user an email  twice
         new_user = {'username': 'usernameert', 'email': 'username@gmail.com', 'password': 'password'}
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(new_user), content_type='application/json')
         self.assertEqual(response.status_code, 409)
 
     def test_invalid_password(self):
         # Test cant register with no password
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(
                                         {'username': 'username', 'email': 'username@mail.com', 'password': ''}),
                                     content_type='application/json')
@@ -70,7 +70,7 @@ class TestUser(unittest.TestCase):
 
     def test_invalid_username(self):
         # Test cant register with invalid username
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(
                                         {'username': 12365478875, 'email': 'username@mail.com', 'password': ''}),
                                     content_type='application/json')
@@ -78,7 +78,7 @@ class TestUser(unittest.TestCase):
 
     def test_invalid_username2(self):
         # Test cant register with invalid username
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(
                                         {'username': 'jk', 'email': 'username@mail.com', 'password': ''}),
                                     content_type='application/json')
@@ -86,7 +86,7 @@ class TestUser(unittest.TestCase):
 
     def test_invalid_email(self):
         # Test cant register with invalid email
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(
                                         {'username': 'username', 'email': 'usernameailcom', 'password': ''}),
                                     content_type='application/json')
@@ -94,7 +94,7 @@ class TestUser(unittest.TestCase):
 
     def test_user_not_found(self):
         # test cant login a non user
-        response = self.client.post('auth/login',
+        response = self.client.post('api/v1/auth/login',
                                     data=json.dumps(
                                         {'username': 'username2', 'password': 'password'}),
                                     content_type='application/json')
@@ -102,7 +102,7 @@ class TestUser(unittest.TestCase):
 
     def test_invalid_password_int(self):
         # test cant register with an invalid password
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(
                                         {'username': "fghjklfghjk", 'email': 'username@mailcom', 'password': 1235455}),
                                     content_type='application/json')
@@ -111,10 +111,10 @@ class TestUser(unittest.TestCase):
     def test_login_incorrect_username(self):
         # Test can't login with wrong username
         new_user = {'username': 'usernam', 'email': 'usernam@email.com', 'password': 'password'}
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(new_user), content_type='application/json')
         self.assertEqual(response.status_code, 201)
-        response2 = self.client.post('auth/login',
+        response2 = self.client.post('api/v1/auth/login',
                                      data=json.dumps(
                                          {'username': 'usernam', 'password': 'passwo'}),
                                      content_type='application/json')
@@ -123,6 +123,6 @@ class TestUser(unittest.TestCase):
     def test_wrong_register_email(self):
         # Test can't  register a wrong email
         new_user = {'username': 'username', 'email': 455, 'password': 'password'}
-        response = self.client.post('auth/signup',
+        response = self.client.post('api/v1/auth/signup',
                                     data=json.dumps(new_user), content_type='application/json')
         self.assertEqual(response.status_code, 400)

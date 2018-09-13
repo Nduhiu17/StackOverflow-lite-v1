@@ -1,11 +1,10 @@
 import json
-from datetime import datetime
 
 
 def register_user(self):
     # register user
     return self.client.post(
-        'auth/signup',
+        'api/v1/auth/signup',
         data=json.dumps(dict(
             username='username254',
             email='username254@gmail.com',
@@ -18,7 +17,7 @@ def register_user(self):
 def login_user(self):
     # loginthe registered user
     return self.client.post(
-        'auth/login',
+        'api/v1/auth/login',
         data=json.dumps(dict(
             username='username254',
             password='password'
@@ -41,7 +40,7 @@ def post_quiz(self):
 
 
 def post_answer(self):
-    # loginthe registered user
+    # login the registered user
     response = login_user(self)
     result = json.loads(response.data)
     self.assertIn("access_token", result)
