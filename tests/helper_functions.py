@@ -40,7 +40,7 @@ def post_quiz(self):
 
 
 def post_answer(self):
-    # loginthe registered user
+    # login the registered user
     response = login_user(self)
     result = json.loads(response.data)
     self.assertIn("access_token", result)

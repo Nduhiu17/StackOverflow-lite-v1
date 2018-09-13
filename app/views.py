@@ -84,10 +84,9 @@ class AnswersResource(Resource):
             return {'message': 'The question with that id was not found'}, 404
         answer = Answer.save(self, body=request.json['body'], question_id=id, user_id=get_jwt_identity(),
                              date_created=datetime.now(),
-                             date_modified=datetime.now(),accept=False)
+                             date_modified=datetime.now(), accept=False)
 
         return {"message": "The answer was posted successfully", "data": answer}, 201
-
 
 
 @ns.route('/questions/<string:id>')
@@ -179,17 +178,28 @@ class LoginResource(Resource):
 @ns4.route('/questions/<string:id>/anwsers/<answer_id>')
 class AnswerResource(Resource):
     """Class resource to update an answer"""
-
+    @api_v1.expect(new_answer)
     @ns.doc(security='apiKey')
     @jwt_required
-    def put(self,id,answer_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('body', help='The body field cannot be blank', required=True, type=str)
-        data = parser.parse_args()
-        question = Question.get_by_id(id)
+    def put(self, id, answer_id):
+        # parser = reqparse.RequestParser()
+        # parser.add_argument('body', help='The body field cannot be blank', required=True, type=str)
+        # data = parser.parse_args()
+        question = Question.get_by_id(id=id)
         logged_in_user = get_jwt_identity()
         answer_to_update = Answer.get_by_id(answer_id)
         print(answer_to_update)
-        # if answer_to_update[]
-        answer_to_update = Answer.update(id=answer_id,body=request.json['body'],user_id=get_jwt_identity(),accept=False)
-        return {"status": "Success", "data": answer_to_update}, 201
+        if question:
+            if answer_to_update:
+                if answer_to_update['user_id'] == logged_in_user:
+                    answer_to_update = Answer.update(id=answer_id, body=request.json['body'],
+                                                     user_id=get_jwt_identity(), accept=False)
+                    return {"message": "You have successfully updated the answer", "data": answer_to_update}, 201
+                elif question['user_id'] == logged_in_user:
+                    print("hey",question['user_id'])
+                    answer_to_update=Answer.accept(id=answer_id)
+                    return {"message": "You have successfully accepted the answer"}, 201
+                else:
+                    return {"message": "You are not authorized to modify the answer"}, 401
+            return {"message": "Answer not found"}, 404
+        return {"message": "No question found with that answer"}, 404
