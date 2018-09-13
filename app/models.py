@@ -78,14 +78,15 @@ class Question:
         list_dict = []
 
         for item in rows:
-            new = Question(id=item[0], title=item[1], body=item[2], user_id=item[3], date_created=item[3],
-                           date_modified=item[4])
+            new = Question(id=item[0], title=item[1], body=item[2], user_id=item[3], date_created=item[4],
+                           date_modified=item[5])
             list_dict.append(new.json_dumps())
         return list_dict
+
     @classmethod
     def delete_question(cls, id):
         try:
-            cursor.execute('DELETE FROM public.questions WHERE id = %s', (id,))
+            cursor.execute('DELETE FROM public.questions CASCADE WHERE id = %s', (id,) )
             return "successfully deleted"
         except:
             return "failed"
