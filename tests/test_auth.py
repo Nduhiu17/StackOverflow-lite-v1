@@ -33,7 +33,7 @@ class TestUser(unittest.TestCase):
 
     def test_init(self):
         # test that a user is initialized
-        self.new_user = User(username="username",
+        self.new_user = User(id=1, username="username",
                              email="username@gmail.com", password="pasword",
                              date_created=datetime.now(), date_modified=datetime.now())
         self.assertTrue(type(self.new_user.id), int)

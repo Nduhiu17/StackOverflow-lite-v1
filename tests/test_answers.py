@@ -24,7 +24,7 @@ class TestAnswer(unittest.TestCase):
         '''test that an answer is initialized'''
         self.new_answer = Answer(id=1, body="how to init python how to init python how to init python", question_id=1,
                                  user_id=1,
-                                 date_created=datetime.now(), date_modified=datetime.now(),accept=False)
+                                 date_created=datetime.now(), date_modified=datetime.now(), accept=False)
         self.assertTrue(type(self.new_answer.id), int)
         self.assertEqual(type(self.new_answer), Answer)
 
@@ -45,7 +45,7 @@ class TestAnswer(unittest.TestCase):
         response = login_user(self)
         result = json.loads(response.data)
         self.assertIn("access_token", result)
-        new_answer = {'body': 'errossssssssssssssssssssssssssssssssssssssssssssssssss','accept':False}
+        new_answer = {'body': 'errossssssssssssssssssssssssssssssssssssssssssssssssss', 'accept': False}
         response = self.client.post('/api/v1/questions/1/answers', data=json.dumps(new_answer),
                                     headers={'Authorization': f'Bearer {result["access_token"]}',
                                              'Content-Type': 'application' '/json'})
@@ -76,16 +76,8 @@ class TestAnswer(unittest.TestCase):
         response = self.client.post('/api/v1/questions/2/anwsers', data=json.dumps(answer),
                                     headers={'Authorization': f'Bearer {result["access_token"]}',
                                              'Content-Type': 'application' '/json'})
-        new_answer = {'body':'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'}
+        new_answer = {'body': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'}
         response2 = self.client.put('/api/v1/questions/2/anwsers/1', data=json.dumps(new_answer),
                                     headers={'Authorization': f'Bearer {result["access_token"]}',
                                              'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 404)
-
-
-
-
-
-
-
-
