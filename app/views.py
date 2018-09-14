@@ -53,9 +53,9 @@ class QuestionsResource(Resource):
         if re.match(r"^[1-9]\d*(\.\d+)?$", data['title']):
             return {'message': 'the title should be of type string'}, 400
         if len(data['title']) < 10:
-            return {'message': 'The length of both title should be atleast 10 characters'}, 400
+            return {'message': 'The length of the title should be atleast 10 characters'}, 400
         if len(data['body']) < 20:
-            return {'message': 'The length of both body should be atleast 15 characters'}, 400
+            return {'message': 'The length of your question content should be atleast 15 characters'}, 400
         question = Question.save(self, title=request.json['title'],
                                  body=request.json['body'],
                                  user_id=get_jwt_identity(),
@@ -156,7 +156,7 @@ class RegisterResource(Resource):
                             required=True, type=str)
         data = parser.parse_args()
         if Validate.validate_username_format(data['username']):
-            return {'message': 'Invalid username'}, 400
+            return {'message': 'Invalid username username should be of form "username"'}, 400
         if not Validate.validate_length_username(data['username']):
             return {'message': 'The length of username should be atleast 4 characters'}, 400
         if not Validate.validate_password_length(data['password']):
@@ -166,7 +166,7 @@ class RegisterResource(Resource):
         if not Validate.validate_email_format(data['email']):
             return {'message': 'Invalid email.The email should be of type "example@mail.com"'}, 400
         if User.find_by_username(data['username']):
-            return {'message': 'This username is already taken'}, 409
+            return {'message': 'This username is already taken,kindly try another username'}, 409
         if User.find_by_email(data['email']):
             return {'message': 'This email is already taken'}, 409
 
@@ -175,7 +175,7 @@ class RegisterResource(Resource):
                          password=User.generate_hash(request.json['password']),
                          date_created=datetime.now(),
                          date_modified=datetime.now())
-        return {"message": "The user saved successfully", "data": user}, 201
+        return {"message": "The user signed up successfully", "data": user}, 201
 
 
 n_user = api_v1.model('Login', {
@@ -187,6 +187,7 @@ n_user = api_v1.model('Login', {
 @ns1.route('/login')
 class LoginResource(Resource):
     '''Class for login resource'''
+
     @api_v1.expect(n_user)
     def post(self):
         ''' Method that logs in a user and creates for him a security token'''

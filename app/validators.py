@@ -1,4 +1,4 @@
-import re#import regex module
+import re  # import regex module
 
 
 class Validate:

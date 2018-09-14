@@ -1,4 +1,4 @@
-import os#import os
+import os  # import os
 
 import psycopg2
 
@@ -10,7 +10,6 @@ def connect_to_db():
     cursor = conn.cursor()
 
     return cursor
-
 
 
 def create_questions_table():
@@ -28,7 +27,6 @@ def create_questions_table():
     REFERENCES users (id)
         )"""
     cursor.execute(sql_command)
-
 
 
 def create_answers_table():
@@ -51,7 +49,6 @@ def create_answers_table():
     cursor.execute(sql_command)
 
 
-
 def create_users_table():
     '''function to create questions table'''
     cursor = connect_to_db()
@@ -67,7 +64,6 @@ def create_users_table():
     cursor.execute(sql_command)
 
 
-
 def drop_questions_table():
     '''function to drop questions table'''
     cursor = connect_to_db()
@@ -75,13 +71,11 @@ def drop_questions_table():
     cursor.execute(sql_command)
 
 
-
 def drop_answers_table():
     '''function to drop answers table'''
     cursor = connect_to_db()
     sql_command = """ DROP TABLE answers CASCADE;"""
     cursor.execute(sql_command)
-
 
 
 def drop_users_table():

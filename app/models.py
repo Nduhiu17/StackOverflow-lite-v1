@@ -27,9 +27,10 @@ class Question:
             "id": self.id,
             "title": self.title,
             "body": self.body,
-            "user_id": self.user_id,
+            "user": User.find_by_id(self.user_id),
             "date_created": str(self.date_created),
-            "date_modified": str(self.date_modified)
+            "date_modified": str(self.date_modified),
+            "answers": Answer.get_all_question_answers(self.id)
         }
         return obj
 
@@ -56,15 +57,10 @@ class Question:
         row = cursor.fetchone()
         if row == None:
             return None
-        question = {
-            "id": row[0],
-            "title": row[1],
-            "body": row[2],
-            "user_id": row[3],
-            "date_created": row[4],
-            "date_modified": row[5]
-        }
-        retrieved_question = question
+        question = Question(id=row[0], title=row[1], body=row[2], user_id=row[3], date_created=row[4],
+                            date_modified=row[5])
+
+        retrieved_question = question.json_dumps()
         answers = Answer.get_all_question_answers(question_id=id)
         retrieved_question['answers'] = answers
         return retrieved_question
@@ -92,6 +88,7 @@ class Question:
         except Exception:
             return "failed"
 
+
 class Answer:
     '''Class to model an answer'''
 
@@ -115,7 +112,7 @@ class Answer:
             "body": body,
             "question_id": question_id,
             "user_id": user_id,
-            "accept":accept,
+            "accept": accept,
             "date_created": str(date_created),
             "date_modified": str(date_modified),
         }
@@ -169,17 +166,17 @@ class Answer:
             "accept": accept,
             "date_modified": str(datetime.now())
         }
+
     @classmethod
     def accept(cls, id):
         '''method to accept an answer'''
         format_str = f"""UPDATE public.answers SET accept=true WHERE id = id;"""
         cursor.execute(format_str)
 
-
     def json_dumps(self):
         '''method to return a json object from the answer details'''
         ans = dict(id=self.id, body=self.body, question_id=self.question_id,
-                   user_id=self.user_id, date_created=str(self.date_created),
+                   user=User.find_by_id(self.user_id), date_created=str(self.date_created),
                    date_modified=str(self.date_modified), accept=self.accept)
         return ans
 
@@ -187,7 +184,7 @@ class Answer:
 class User:
     '''Class to model a user'''
 
-    def __init__(self, username, email, password, date_created, date_modified):
+    def __init__(self, id, username, email, password, date_created, date_modified):
         '''method to initialize User class'''
         self.id = id
         self.username = username
@@ -235,8 +232,11 @@ class User:
         '''method to find a user by id'''
         try:
             cursor.execute("select * from users where id = %s", (id,))
-            user = cursor.fetchone()
-            return list(user)
+            retrieved_user = list(cursor.fetchone())
+            user = User(id=retrieved_user[0], username=retrieved_user[1], email=retrieved_user[2],
+                        password=retrieved_user[3], date_created=retrieved_user[4], date_modified=retrieved_user[5])
+
+            return user.json_dumps()
         except Exception:
             return False
 
@@ -262,10 +262,7 @@ class User:
         '''method to return a json object from a user'''
         ans = {
             "id": self.id,
-            "body": self.username,
+            "username": self.username,
             "email": self.email,
-            "password": self.password,
-            "date_created": str(self.date_created),
-            "date_modified": str(self.date_modified)
         }
         return ans

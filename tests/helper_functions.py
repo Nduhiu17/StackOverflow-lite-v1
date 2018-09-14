@@ -15,7 +15,7 @@ def register_user(self):
 
 
 def login_user(self):
-    # loginthe registered user
+    # login the registered user
     return self.client.post(
         'api/v1/auth/login',
         data=json.dumps(dict(
