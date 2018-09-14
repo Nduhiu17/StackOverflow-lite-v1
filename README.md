@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/Nduhiu17/StackOverflow-lite-v1.svg?branch=challenge-three)](https://travis-ci.org/Nduhiu17/StackOverflow-lite-v1)
 [![Coverage Status](https://coveralls.io/repos/github/Nduhiu17/StackOverflow-lite-v1/badge.svg?branch=challenge-three)](https://coveralls.io/github/Nduhiu17/StackOverflow-lite-v1?branch=challenge-three)
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/f1dae9885bc88e9accb7/maintainability)](https://codeclimate.com/github/Nduhiu17/StackOverflow-lite-v1/maintainability)
 
 #### Description
@@ -28,11 +27,14 @@ Please click [github-link](https://github.com/Nduhiu17/StackOverflow-lite-v1/tre
 
 | METHOD | ENDPOINT                                            | DESCRIPTION                         |
 | ------ | ---------------------------------------------       | --------------------------------    |
-
-| GET    | /api/v1/questions                                   | Get all questions                   |
+| POST   | /api/v1/auth/signup                                 | Signing up in the application       |
+| POST   | /api/v1/auth/login                                  | Logging in to the application       |
 | POST   | /api/v1/questions                                   | Create a new question               |
-| POST   | /api/v1/questions/<int:question_id>/answers         | Create a new answer to a question   |
+| GET    | /api/v1/questions                                   | Fetch all questions                 |
 | GET    | /api/v1/questions/<int:question_id>                 | Fetch a single question             |
+| POST   | /api/v1/questions/<int:question_id>/answers         | Post an answer to a question        |
+| PUT    | /api/v1/questions/<int:question_id>/answers/<id>    | Up an answer to a question          |
+| PUT    | /api/v1/questions/<int:question_id>/answers/<id>    | Accept an answer                    |
 
 
 #### Prerequisites
