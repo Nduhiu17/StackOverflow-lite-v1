@@ -34,6 +34,8 @@ Please click [github-link](https://github.com/Nduhiu17/StackOverflow-lite-v1/tre
 | POST   | /api/v1/questions/<int:question_id>/answers         | Post an answer to a question        |
 | PUT    | /api/v1/questions/<int:question_id>/answers/<id>    | Up an answer to a question          |
 | PUT    | /api/v1/questions/<int:question_id>/answers/<id>    | Accept an answer                    |
+| GET    | /api/v1/questions?search=<string:search>            | Search for questions                |
+
 
 
 #### Prerequisites
