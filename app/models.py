@@ -80,6 +80,22 @@ class Question:
         return list_dict
 
     @classmethod
+    def get_all_user_questions(cls, user):
+        '''method to get all questions of a given user'''
+        question_owner = User.find_by_id(user)
+        if question_owner:
+            cursor.execute("SELECT * FROM public.questions WHERE user_id = %s", (user,))
+            rows = cursor.fetchall()
+            list_dict = []
+
+            for item in rows:
+                new = Question(id=item[0], title=item[1], body=item[2], user_id=item[3], date_created=item[4],
+                               date_modified=item[5])
+                list_dict.append(new.json_dumps())
+            return list_dict
+        return {"message":"No user with that id"}, 404
+
+    @classmethod
     def delete_question(cls, id):
         '''method to delete a question'''
         try:
