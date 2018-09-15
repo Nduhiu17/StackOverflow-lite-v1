@@ -30,6 +30,8 @@ ns4 = api_v1.namespace('api/v1',
                        description='End points regarding an answer operations')
 ns5 = api_v1.namespace('api/v1',
                        description='End point to get all user questions')
+ns6 = api_v1.namespace('api/v1',
+                       description='End point to get all user questions')
 
 resource_fields = api_v1.model('Question', {
     'title': fields.String,
@@ -82,8 +84,22 @@ class QuestionsResource(Resource):
                 return {"message": "Success", "data": questions}, 200
             return {"message": "No user found with that id"}, 404
 
+        elif "search" in request.args:
+            questions = Question.search_questions(body=request.args['search'], title=request.args['search'])
+            if questions:
+                return {"message": "Search results", "data": questions}, 200
+            return {"message": "No question found!!!"}, 404
         questions = Question.get_all()
         return {"message": "Success", "data": questions}, 200
+
+
+@ns5.route('/questions?search=<string:string>')
+class SearchQuestionsResource(Resource):
+    '''class to provide all user questions resource'''
+
+    def get(self):
+        ''' Search for a question'''
+        pass
 
 
 @ns5.route('/questions?user=<int:user_id>')
