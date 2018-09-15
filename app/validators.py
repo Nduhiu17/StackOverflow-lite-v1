@@ -1,5 +1,8 @@
 import re  # import regex module
 
+from app.database import connect_to_db
+
+cursor = connect_to_db()
 
 class Validate:
     '''Class for validating data input'''
@@ -31,5 +34,15 @@ class Validate:
         '''checks correct email format'''
         regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
         if re.match(regex, email, re.IGNORECASE):
+            return True
+        return False
+
+    @staticmethod
+    def is_question_exist(body):
+        '''check if question exists'''
+        query = ("""SELECT * FROM questions where body = '{}'""".format(body))
+        cursor.execute(query)
+        body = cursor.fetchone()
+        if body:
             return True
         return False
