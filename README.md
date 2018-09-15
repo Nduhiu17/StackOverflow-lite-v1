@@ -30,6 +30,7 @@ Please click [github-link](https://github.com/Nduhiu17/StackOverflow-lite-v1/tre
 | POST   | /api/v1/questions                                   | Create a new question               |
 | GET    | /api/v1/questions                                   | Fetch all questions                 |
 | GET    | /api/v1/questions/<int:question_id>                 | Fetch a single question             |
+| GET    | /api/v1/questions?user=<int:user_id>                | Fetch all questions for a user      |
 | POST   | /api/v1/questions/<int:question_id>/answers         | Post an answer to a question        |
 | PUT    | /api/v1/questions/<int:question_id>/answers/<id>    | Up an answer to a question          |
 | PUT    | /api/v1/questions/<int:question_id>/answers/<id>    | Accept an answer                    |
