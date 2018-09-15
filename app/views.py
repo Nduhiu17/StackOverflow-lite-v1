@@ -29,6 +29,7 @@ ns2 = api_home.namespace('',
 ns4 = api_v1.namespace('api/v1',
                        description='End points regarding an answer operations')
 
+
 resource_fields = api_v1.model('Question', {
     'title': fields.String,
     'body': fields.String,
@@ -43,7 +44,7 @@ class QuestionsResource(Resource):
     @ns.doc(security='apiKey')
     @jwt_required
     def post(self):
-        '''method that post a question resource'''
+        '''Create a question'''
         parser = reqparse.RequestParser()
         parser.add_argument('title', help='The title field cannot be blank',
                             required=True, type=str)
@@ -64,17 +65,20 @@ class QuestionsResource(Resource):
                 return {'message': 'The length of your question content should be atleast 15 characters'}, 400
 
             question = Question.save(self, title=request.json['title'],
-                                 body=request.json['body'],
-                                 user_id=get_jwt_identity(),
-                                 date_created=datetime.now(),
-                                 date_modified=datetime.now())
+                                     body=request.json['body'],
+                                     user_id=get_jwt_identity(),
+                                     date_created=datetime.now(),
+                                     date_modified=datetime.now())
             return {"message": "The question posted successfully",
-                "data": question}, 201
+                    "data": question}, 201
 
     def get(self):
-        '''method that gets all questions resource'''
+        '''Get all questions'''
         questions = Question.get_all()
         return {"message": "Success", "data": questions}, 200
+
+
+
 
 
 new_answer = api_v1.model('Answer', {
@@ -90,12 +94,11 @@ class AnswersResource(Resource):
     @ns.doc(security='apiKey')
     @jwt_required
     def post(self, id):
-        '''method that post a question resource'''
+        '''Post an answer to a question'''
         parser = reqparse.RequestParser()
         parser.add_argument('body', help='The body field cannot be blank',
                             required=True, type=str)
         data = parser.parse_args()
-        # json_data = request.get_json(force=True)
         if len(data['body']) < 15:
             return {'message': 'Ops!,the answer is too short,kindly provide an answer of more than 15 characters'}, 400
         question_to_answer = Question.get_by_id(id)
@@ -115,7 +118,7 @@ class QuestionResource(Resource):
     '''Class for a single question resource'''
 
     def get(self, id):
-        '''method that gets all questions resource'''
+        '''Get a question by id'''
 
         question = Question.get_by_id(id)
 
@@ -127,7 +130,7 @@ class QuestionResource(Resource):
     @ns.doc(security='apiKey')
     @jwt_required
     def delete(self, id):
-        '''resource to delete a question'''
+        '''Delete a question'''
         question_to_delete = Question.get_by_id(id)
         logged_in_user = get_jwt_identity()
         if question_to_delete:
@@ -197,7 +200,7 @@ class LoginResource(Resource):
 
     @api_v1.expect(n_user)
     def post(self):
-        ''' Method that logs in a user and creates for him a security token'''
+        ''' Login with registered details'''
         parser = reqparse.RequestParser()
         parser.add_argument('password', help='This3 field cannot be blank',
                             required=True)
@@ -224,7 +227,7 @@ class AnswerResource(Resource):
     @ns.doc(security='apiKey')
     @jwt_required
     def put(self, id, answer_id):
-        '''method to accept an answer and update an answer'''
+        '''Accept an answer and update an answer'''
         question = Question.get_by_id(id=id)
         logged_in_user = get_jwt_identity()
         answer_to_update = Answer.get_by_id(answer_id)
