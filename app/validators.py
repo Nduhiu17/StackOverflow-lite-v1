@@ -1,6 +1,7 @@
 import re  # import regex module
 
 from app.database import connect_to_db
+from app.models import Answer
 
 cursor = connect_to_db()
 
@@ -46,3 +47,12 @@ class Validate:
         if body:
             return True
         return False
+
+    @staticmethod
+    def check_answer_accepted(question_id):
+        answers = Answer.get_all_question_answers(question_id)
+        for answer in answers:
+            if answer['accept'] == True:
+                return True
+        return False
+
