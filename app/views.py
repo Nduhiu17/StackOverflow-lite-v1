@@ -246,7 +246,7 @@ class AnswerResource(Resource):
                                                      accept=False)
                     return {"message": "You have successfully updated the answer",
                             "data": answer_to_update}, 201
-                if question['user']["id"]== logged_in_user and answer_to_update['question_id'] == question["id"]:
+                if question['user']["id"] == logged_in_user and answer_to_update['question_id'] == question["id"]:
                     if Validate.check_answer_accepted(question_id=question["id"]):
                         return {"message": "The question has an already acceped answer"}, 405
                     Answer.accept(id=answer_id)
