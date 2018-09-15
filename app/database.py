@@ -1,10 +1,10 @@
-import os
+import os  # import os
 
 import psycopg2
 
 
 def connect_to_db():
-    # Function to create a database connection
+    '''Function to create a database connection'''
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     conn.autocommit = True
     cursor = conn.cursor()
@@ -12,8 +12,8 @@ def connect_to_db():
     return cursor
 
 
-# function to create questions table
 def create_questions_table():
+    '''function to create questions table'''
     cursor = connect_to_db()
     sql_command = """CREATE TABLE IF NOT EXISTS "public"."questions"  (
     id SERIAL ,
@@ -29,8 +29,8 @@ def create_questions_table():
     cursor.execute(sql_command)
 
 
-# function to create answers table
 def create_answers_table():
+    '''function to create answers table'''
     cursor = connect_to_db()
     sql_command = """ CREATE TABLE IF NOT EXISTS "public"."answers"  (
             id SERIAL ,
@@ -49,8 +49,8 @@ def create_answers_table():
     cursor.execute(sql_command)
 
 
-# function to create questions table
 def create_users_table():
+    '''function to create questions table'''
     cursor = connect_to_db()
     sql_command = """CREATE TABLE IF NOT EXISTS "public"."users"  (
     id SERIAL ,
@@ -64,28 +64,22 @@ def create_users_table():
     cursor.execute(sql_command)
 
 
-# function to drop questions table
 def drop_questions_table():
+    '''function to drop questions table'''
     cursor = connect_to_db()
-    sql_command = """ 
-    DROP TABLE questions CASCADE;
-    """
+    sql_command = """ DROP TABLE questions CASCADE;"""
     cursor.execute(sql_command)
 
 
-# function to drop answers table
 def drop_answers_table():
+    '''function to drop answers table'''
     cursor = connect_to_db()
-    sql_command = """ 
-    DROP TABLE answers CASCADE;
-    """
+    sql_command = """ DROP TABLE answers CASCADE;"""
     cursor.execute(sql_command)
 
 
-# function to drop answers table
 def drop_users_table():
+    '''function to drop answers table'''
     cursor = connect_to_db()
-    sql_command = """ 
-    DROP TABLE users CASCADE;
-    """
+    sql_command = """ DROP TABLE users CASCADE;"""
     cursor.execute(sql_command)

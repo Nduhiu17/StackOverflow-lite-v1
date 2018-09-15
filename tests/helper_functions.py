@@ -2,7 +2,7 @@ import json
 
 
 def register_user(self):
-    # register user
+    '''register user'''
     return self.client.post(
         'api/v1/auth/signup',
         data=json.dumps(dict(
@@ -15,7 +15,7 @@ def register_user(self):
 
 
 def login_user(self):
-    # loginthe registered user
+    '''login the registered user'''
     return self.client.post(
         'api/v1/auth/login',
         data=json.dumps(dict(
@@ -27,7 +27,7 @@ def login_user(self):
 
 
 def post_quiz(self):
-    # loginthe registered user
+    '''loginthe registered user'''
     response = login_user(self)
     result = json.loads(response.data)
     self.assertIn("access_token", result)
