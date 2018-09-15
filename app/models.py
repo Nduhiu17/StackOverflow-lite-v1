@@ -115,6 +115,21 @@ class Question:
             list_dict.append(new.json_dumps())
         return list_dict
 
+    @classmethod
+    def get_top_answered(cls):
+        all_questions = Question.get_all()
+        for question in all_questions:
+            list_length = []
+            questions = []
+            answers = Answer.get_all_question_answers(question_id=question['id'])
+            for ans in answers:
+                list_length.append(len(ans))
+                questions.append(question)
+
+                list_length.sort()
+                top_6_answered = questions[-6:]
+            return top_6_answered
+
 
 class Answer:
     '''Class to model an answer'''

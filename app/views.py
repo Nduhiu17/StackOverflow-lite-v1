@@ -102,6 +102,18 @@ class SearchQuestionsResource(Resource):
         pass
 
 
+@ns.route('/questions/most_answered')
+class TopansweredQuestionsResource(Resource):
+    '''class to provide all user questions resource'''
+
+    def get(self):
+        '''Get most answered questions'''
+        top_questions = Question.get_top_answered()
+        if top_questions:
+            return {"message": "Success", "data": top_questions}, 200
+        return {"message": "No top answered questions yet"}, 404
+
+
 @ns5.route('/questions?user=<int:user_id>')
 class UserQuestionsResource(Resource):
     '''class to provide all user questions resource'''
