@@ -80,7 +80,7 @@ class Question:
         return list_dict
 
     @classmethod
-    def get_all_user_questions(cls,user):
+    def get_all_user_questions(cls, user):
         '''method to get all questions of a given user'''
         question_owner = User.find_by_id(user)
         if question_owner:
@@ -93,7 +93,7 @@ class Question:
                                date_modified=item[5])
                 list_dict.append(new.json_dumps())
             return list_dict
-        return {"message":"No user with that id"},404
+        return {"message":"No user with that id"}, 404
 
     @classmethod
     def delete_question(cls, id):
