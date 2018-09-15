@@ -4,7 +4,7 @@ from datetime import datetime
 from flask_jwt_extended import create_access_token, jwt_required, \
     get_jwt_identity
 from flask_restplus import Resource, reqparse, fields
-from flask import request
+from flask import request, jsonify
 
 from app import api_v1, api_home
 from app.database import connect_to_db, create_answers_table, \
@@ -50,18 +50,25 @@ class QuestionsResource(Resource):
         parser.add_argument('body', help='The body field cannot be blank',
                             required=True, type=str)
         data = parser.parse_args()
-        if re.match(r"^[1-9]\d*(\.\d+)?$", data['title']):
-            return {'message': 'the title should be of type string'}, 400
-        if len(data['title']) < 10:
-            return {'message': 'The length of the title should be atleast 10 characters'}, 400
-        if len(data['body']) < 20:
-            return {'message': 'The length of your question content should be atleast 15 characters'}, 400
-        question = Question.save(self, title=request.json['title'],
+        search_keys = ("title", "body")
+        if all(key in data.keys() for key in search_keys):
+            body = data.get("body").strip()
+            does_qstn_exist = Validate.is_question_exist(body)
+            if does_qstn_exist:
+                return ({"message": "Question already exists, check it out for an answer"}), 409
+            if re.match(r"^[1-9]\d*(\.\d+)?$", data['title']):
+                return {'message': 'the title should be of type string'}, 400
+            if len(data['title']) < 10:
+                return {'message': 'The length of the title should be atleast 10 characters'}, 400
+            if len(data['body']) < 20:
+                return {'message': 'The length of your question content should be atleast 15 characters'}, 400
+
+            question = Question.save(self, title=request.json['title'],
                                  body=request.json['body'],
                                  user_id=get_jwt_identity(),
                                  date_created=datetime.now(),
                                  date_modified=datetime.now())
-        return {"message": "The question posted successfully",
+            return {"message": "The question posted successfully",
                 "data": question}, 201
 
     def get(self):
