@@ -28,7 +28,8 @@ ns2 = api_home.namespace('',
                          description='Posting a question and getting all questions')
 ns4 = api_v1.namespace('api/v1',
                        description='End points regarding an answer operations')
-
+ns5 = api_v1.namespace('api/v1',
+                       description='End point to get all user questions')
 
 resource_fields = api_v1.model('Question', {
     'title': fields.String,
@@ -74,11 +75,24 @@ class QuestionsResource(Resource):
 
     def get(self):
         '''Get all questions'''
+        if 'user' in request.args:
+            question_owner = User.find_by_id(request.args['user'])
+            if question_owner:
+                questions = Question.get_all_user_questions(user=request.args['user'])
+                return {"message": "Success", "data": questions}, 200
+            return {"message": "No user found with that id"}, 404
+
         questions = Question.get_all()
         return {"message": "Success", "data": questions}, 200
 
 
+@ns5.route('/questions?user=<int:user_id>')
+class UserQuestionsResource(Resource):
+    '''class to provide all user questions resource'''
 
+    def get(self):
+        '''Get all questions of a given user'''
+        pass
 
 
 new_answer = api_v1.model('Answer', {
