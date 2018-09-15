@@ -4,7 +4,7 @@ from datetime import datetime
 from flask_jwt_extended import create_access_token, jwt_required, \
     get_jwt_identity
 from flask_restplus import Resource, reqparse, fields
-from flask import request, jsonify
+from flask import request
 
 from app import api_v1, api_home
 from app.database import connect_to_db, create_answers_table, \
@@ -123,7 +123,7 @@ class QuestionResource(Resource):
         question = Question.get_by_id(id)
 
         if question == None:
-            return {"status": "No question with that id"}, 404
+            return {"status": "No question found with that id"}, 404
 
         return {"message": "Success", "data": question}, 200
 
@@ -134,7 +134,7 @@ class QuestionResource(Resource):
         question_to_delete = Question.get_by_id(id)
         logged_in_user = get_jwt_identity()
         if question_to_delete:
-            if question_to_delete['user_id'] == logged_in_user:
+            if question_to_delete['user']["id"] == logged_in_user:
                 Question.delete_question(id)
                 return {"message": "Successfully deleted"}, 200
             return {"message": "You are not authorized to delete this question"}, 401
@@ -246,7 +246,9 @@ class AnswerResource(Resource):
                                                      accept=False)
                     return {"message": "You have successfully updated the answer",
                             "data": answer_to_update}, 201
-                if question['user_id'] == logged_in_user and answer_to_update['question_id'] == question["id"]:
+                if question['user']["id"]== logged_in_user and answer_to_update['question_id'] == question["id"]:
+                    if Validate.check_answer_accepted(question_id=question["id"]):
+                        return {"message": "The question has an already acceped answer"}, 405
                     Answer.accept(id=answer_id)
                     return {"message": "You have successfully accepted the answer"}, 201
                 else:
