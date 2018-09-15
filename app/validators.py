@@ -50,9 +50,9 @@ class Validate:
 
     @staticmethod
     def check_answer_accepted(question_id):
+        '''Method to check whether a question has an accepted answer'''
         answers = Answer.get_all_question_answers(question_id)
         for answer in answers:
-            if answer['accept'] == True:
+            if answer['accept']:
                 return True
         return False
-
