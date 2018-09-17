@@ -5,7 +5,8 @@ class Config(object):
     DEBUG = True
     TESTING = False
     CSRF_ENABLED = True
-    
+    JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
+
 
 
 class ProductionConfig(Config):
