@@ -7,7 +7,7 @@ from app.database import drop_questions_table, drop_answers_table, create_questi
     create_users_table, drop_users_table
 from app.models import Question
 from config import TestingConfig
-from tests.helper_functions import register_user, login_user, post_quiz
+from tests.helper_functions import register_user, login_user, post_quiz, post_answer
 
 
 class TestQuestion(unittest.TestCase):
@@ -113,3 +113,17 @@ class TestQuestion(unittest.TestCase):
         response = self.client.get('/api/v1/questions', content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertTrue(type(response), list)
+
+
+    def test_cant_post_a_question_twice(self):
+        response = login_user(self)
+        result = json.loads(response.data)
+        self.assertIn("access_token", result)
+        new_question = {'title': 'error sit voluptatem accusantium doloremque laudantium',
+                        'body': 'error', 'user_id': 1}
+        response = self.client.post('api/v1/questions', data=json.dumps(new_question),
+                                    headers={'Authorization': f'Bearer {result["access_token"]}',
+                                             'Content-Type': 'application' '/json'})
+        response2 = self.client.post('api/v1/questions', data=json.dumps(new_question),headers={'Authorization': f'Bearer {result["access_token"]}',
+                                            'Content-Type': 'application' '/json'})
+        self.assertEqual(response.status_code, 400)

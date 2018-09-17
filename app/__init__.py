@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, Blueprint#importing flask
+from flask_cors import CORS
 from flask_restplus import Api
 from flask_jwt_extended import JWTManager
 from config import DevelopmentConfig
@@ -14,6 +15,7 @@ authorization = {
 
 app = Flask(__name__)
 jwt = JWTManager(app)
+CORS(app)
 app.config.from_object(DevelopmentConfig)
 blueprint = Blueprint('api', __name__)
 blueprint_2 = Blueprint('home', __name__)

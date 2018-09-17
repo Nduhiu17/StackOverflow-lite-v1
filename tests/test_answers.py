@@ -51,6 +51,17 @@ class TestAnswer(unittest.TestCase):
                                              'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 201)
 
+    def test_cant_post_to_non(self):
+        '''test that an answer can be posted'''
+        response = login_user(self)
+        result = json.loads(response.data)
+        self.assertIn("access_token", result)
+        new_answer = {'body': 'errossssssssssssssssssssssssssssssssssssssssssssssssss', 'accept': False}
+        response = self.client.post('/api/v1/questions/1258/answers', data=json.dumps(new_answer),
+                                    headers={'Authorization': f'Bearer {result["access_token"]}',
+                                             'Content-Type': 'application' '/json'})
+        self.assertEqual(response.status_code, 404)
+
     def test_post_short_answer_body(self):
         '''test cant post invalid short answer'''
         response = login_user(self)
@@ -78,6 +89,22 @@ class TestAnswer(unittest.TestCase):
                                              'Content-Type': 'application' '/json'})
         new_answer = {'body': 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr'}
         response2 = self.client.put('/api/v1/questions/2/anwsers/1', data=json.dumps(new_answer),
+                                    headers={'Authorization': f'Bearer {result["access_token"]}',
+                                             'Content-Type': 'application' '/json'})
+        self.assertEqual(response.status_code, 404)
+
+
+    def test_cant_modify_no_answer_t(self):
+        '''test that you can't modify non-answer'''
+        response = login_user(self)
+        result = json.loads(response.data)
+        self.assertIn("access_token", result)
+        answer = {'body': 'new_answernew_answernew_answernew_answernew_answernew_answernew_answernew'}
+        response = self.client.post('/api/v1/questions/1/anwsers', data=json.dumps(answer),
+                                    headers={'Authorization': f'Bearer {result["access_token"]}',
+                                             'Content-Type': 'application' '/json'})
+        new_answer = {'body': 'modified_answermodified_answermodified_answermodified_answermodified_answer'}
+        response2 = self.client.put('/api/v1/questions/1/anwsers/4', data=json.dumps(new_answer),
                                     headers={'Authorization': f'Bearer {result["access_token"]}',
                                              'Content-Type': 'application' '/json'})
         self.assertEqual(response.status_code, 404)

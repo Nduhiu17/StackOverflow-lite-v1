@@ -40,7 +40,7 @@ def post_quiz(self):
 
 
 def post_answer(self):
-    # login the registered user
+    '''login the registered user'''
     response = login_user(self)
     result = json.loads(response.data)
     self.assertIn("access_token", result)
@@ -49,3 +49,4 @@ def post_answer(self):
                                 headers={'Authorization': f'Bearer {result["access_token"]}',
                                          'Content-Type': 'application' '/json'})
     return response
+
