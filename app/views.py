@@ -141,6 +141,7 @@ class AnswersResource(Resource):
         parser.add_argument('body', help='The body field cannot be blank',
                             required=True, type=str)
         data = parser.parse_args()
+        print(data)
         if len(data['body']) < 15:
             return {'message': 'Ops!,the answer is too short,kindly provide an answer of more than 15 characters'}, 400
         question_to_answer = Question.get_by_id(id)
@@ -208,7 +209,7 @@ class RegisterResource(Resource):
                             required=True, type=str)
         data = parser.parse_args()
         if Validate.validate_username_format(data['username']):
-            return {'message': 'Invalid username username should be of form "username"'}, 400
+            return {'message': 'Invalid username username should be of form username'}, 400
         if not Validate.validate_length_username(data['username']):
             return {'message': 'The length of username should be atleast 4 characters'}, 400
         if not Validate.validate_password_length(data['password']):
@@ -227,7 +228,7 @@ class RegisterResource(Resource):
                          password=User.generate_hash(request.json['password']),
                          date_created=datetime.now(),
                          date_modified=datetime.now())
-        return {"message": "The user signed up successfully", "data": user}, 201
+        return {"message": "You have been signed up successfully"}, 201
 
 
 n_user = api_v1.model('Login', {
@@ -251,12 +252,11 @@ class LoginResource(Resource):
         data = parser.parse_args()
         current_user = User.find_by_username(data['username'])
         if current_user == False:
-            return {'message': 'User {} doesnt exist'.format(
-                data['username'])}, 404
+            return {'message': 'User doesnt exist'}, 404
 
         if User.verify_hash(data['password'], current_user[3]):
             access_token = create_access_token(current_user[0])
-            return dict(message='Logged in as {}'.format(current_user[1]),
+            return dict(message='Logged in',
                         access_token=access_token), 200
         return {'message': 'Wrong credentials'}, 403
 
