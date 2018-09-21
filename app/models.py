@@ -296,8 +296,7 @@ class User:
     def create_token():
         '''method to generate token from username'''
         username = get_jwt_identity()
-        expires = datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5)
-        token = create_access_token(username, expires_delta=expires)
+        token = create_access_token(username, expires_delta=False)
         return jsonify({'token': token}), 201
 
     def json_dumps(self):
