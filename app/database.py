@@ -23,8 +23,7 @@ def create_questions_table():
     date_created VARCHAR(80),
     date_modified VARCHAR(80),
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id)
-    REFERENCES users (id)
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         )"""
     cursor.execute(sql_command)
 
@@ -41,10 +40,8 @@ def create_answers_table():
             date_modified VARCHAR(80),
             accept BOOLEAN  default FALSE,
             PRIMARY KEY (id),
-            FOREIGN KEY (question_id)
-            REFERENCES questions (id),
-            FOREIGN KEY (user_id)
-            REFERENCES users (id)
+            FOREIGN KEY (question_id) REFERENCES questions (id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
                 )"""
     cursor.execute(sql_command)
 
