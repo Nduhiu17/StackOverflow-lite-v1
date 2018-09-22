@@ -15,6 +15,7 @@ authorization = {
 
 app = Flask(__name__)
 jwt = JWTManager(app)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
 CORS(app)
 app.config.from_object(DevelopmentConfig)
 blueprint = Blueprint('api', __name__)
